@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { US_STATES, ENTITY_TYPES } from '../data/constants'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const PLANS = [
   { id: 'independent', prefix: 'Independent Operator', biannualPrice: 199, annualPrice: 398 },
@@ -21,6 +22,7 @@ const STATE_FILING_FEES = {
 }
 
 function ReviewSection({ title, onEdit, children }) {
+  const { t } = useLanguage()
   return (
     <div className="border border-slate-200 rounded-xl overflow-hidden">
       <div className="flex items-center justify-between bg-slate-50 px-5 py-3 border-b border-slate-200">
@@ -29,7 +31,7 @@ function ReviewSection({ title, onEdit, children }) {
           onClick={onEdit}
           className="text-xs font-semibold text-blue-600 hover:text-blue-700 transition-colors"
         >
-          Edit
+          {t('checkout.editInfo')}
         </button>
       </div>
       <div className="px-5 py-4">{children}</div>
@@ -47,6 +49,7 @@ function ReviewRow({ label, value }) {
 }
 
 export default function CheckoutStep({ formData, onChange, goToStep }) {
+  const { t } = useLanguage()
   const [showEditModal, setShowEditModal] = useState(false)
 
   const ownerName = formData.owners[0]
@@ -115,8 +118,8 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Checkout</h2>
-      <p className="text-slate-500 mb-8">Complete your order to begin the formation process.</p>
+      <h2 className="text-2xl font-bold text-slate-900 mb-1">{t('checkout.title')}</h2>
+      <p className="text-slate-500 mb-8">{t('checkout.sub')}</p>
 
       {/* Edit Your Information — hidden for existing businesses */}
       {!isExistingBusiness && <button
@@ -130,8 +133,8 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
             </svg>
           </div>
           <div className="text-left">
-            <p className="text-sm font-semibold text-slate-900">Edit Your Information</p>
-            <p className="text-xs text-slate-400">Review and update your business details</p>
+            <p className="text-sm font-semibold text-slate-900">{t('checkout.editInfo')}</p>
+            <p className="text-xs text-slate-400">{t('checkout.editInfoSub')}</p>
           </div>
         </div>
         <svg className="w-4 h-4 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -142,14 +145,14 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
       {/* Order Summary */}
       <div className="border border-slate-200 rounded-xl overflow-hidden mb-6">
         <div className="bg-slate-50 px-5 py-3 border-b border-slate-200">
-          <h3 className="text-sm font-semibold text-slate-700">Order Summary</h3>
+          <h3 className="text-sm font-semibold text-slate-700">{t('checkout.orderSummary')}</h3>
         </div>
         <div className="px-5 py-4 space-y-3">
           {filingFee > 0 && (
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-900">{formData.formationState} State Filing Fee</p>
-                <p className="text-xs text-slate-400">Due today</p>
+                <p className="text-sm font-medium text-slate-900">{t('checkout.stateFee', { state: formData.formationState })}</p>
+                <p className="text-xs text-slate-400">{t('checkout.dueToday')}</p>
               </div>
               <span className="text-sm font-semibold text-slate-900">${filingFee}</span>
             </div>
@@ -161,8 +164,8 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
                 <p className="text-sm font-medium text-slate-900">{planName}</p>
                 <p className="text-xs text-slate-400">
                   {isExistingBusiness
-                    ? `$${plan.annualPrice}/yr — first payment due today`
-                    : `$${plan.biannualPrice}/6mo ($${plan.annualPrice}/yr) — billed after formation`}
+                    ? t('checkout.firstPayment', { annual: plan.annualPrice })
+                    : t('checkout.billedAfter', { semi: plan.biannualPrice, annual: plan.annualPrice })}
                 </p>
               </div>
               <span className={`text-sm font-semibold ${isExistingBusiness ? 'text-slate-900' : 'text-slate-400'}`}>
@@ -173,7 +176,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
 
           <div className="border-t border-slate-200 pt-3">
             <div className="flex justify-between items-center">
-              <span className="text-sm font-bold text-slate-900">Due Today</span>
+              <span className="text-sm font-bold text-slate-900">{t('checkout.dueTodayLabel')}</span>
               <span className="text-lg font-bold text-slate-900">
                 ${totalDue > 0 ? totalDue.toLocaleString() : '0.00'}
               </span>
@@ -206,7 +209,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
         </div>
         <div className="flex items-center gap-3 text-xs text-slate-400">
           <div className="flex-1 h-px bg-slate-200" />
-          <span>or pay with card</span>
+          <span>{t('checkout.orCard')}</span>
           <div className="flex-1 h-px bg-slate-200" />
         </div>
       </div>
@@ -214,23 +217,23 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
       {/* Card Form */}
       <div className="space-y-5">
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1.5">Name on Card</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">{t('checkout.nameOnCard')}</label>
           <input
             type="text"
             value={cardName}
             onChange={(e) => { setCardName(e.target.value); if (sameAsOwner) setSameAsOwner(false) }}
-            placeholder="Full name as shown on card"
+            placeholder={t('checkout.namePH')}
             className={inputClass}
             disabled={sameAsOwner}
           />
           <label className="flex items-center gap-2 mt-2 cursor-pointer">
             <input type="checkbox" checked={sameAsOwner} onChange={(e) => setSameAsOwner(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-            <span className="text-sm text-slate-500">Same as primary owner{ownerName ? ` (${ownerName})` : ''}</span>
+            <span className="text-sm text-slate-500">{t('checkout.sameAsOwner')}{ownerName ? ` (${ownerName})` : ''}</span>
           </label>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1.5">Card Details</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">{t('checkout.cardDetails')}</label>
           <input type="text" value={cardNumber} onChange={(e) => setCardNumber(formatCardNumber(e.target.value))} placeholder="1234 5678 9012 3456" className={inputClass} inputMode="numeric" />
           <div className="grid grid-cols-2 gap-3 mt-3">
             <input type="text" value={expiry} onChange={(e) => setExpiry(formatExpiry(e.target.value))} placeholder="MM/YY" className={inputClass} inputMode="numeric" />
@@ -239,10 +242,10 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1.5">Billing Address</label>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">{t('checkout.billingAddress')}</label>
           <label className="flex items-center gap-2 mb-3 cursor-pointer">
             <input type="checkbox" checked={sameAsAddress} onChange={(e) => setSameAsAddress(e.target.checked)} className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
-            <span className="text-sm text-slate-500">Same as business address</span>
+            <span className="text-sm text-slate-500">{t('checkout.sameAsAddress')}</span>
           </label>
           <div className="space-y-3">
             <div className="grid grid-cols-3 gap-3">
@@ -271,7 +274,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
         <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
         </svg>
-        Your payment information is secured with 256-bit SSL encryption.
+        {t('checkout.secureNote')}
       </p>
 
       {/* Edit Information Modal */}
@@ -281,7 +284,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
           <div className="relative bg-white w-80 h-full shadow-2xl flex flex-col animate-[slideInRight_0.25s_ease-out]">
             {/* Modal header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 flex-shrink-0">
-              <h3 className="text-base font-bold text-slate-900">Edit Your Information</h3>
+              <h3 className="text-base font-bold text-slate-900">{t('checkout.modal.title')}</h3>
               <button onClick={() => setShowEditModal(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
                 <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -290,35 +293,35 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
             </div>
             {/* Modal body */}
             <div className="overflow-y-auto px-5 py-4 space-y-4">
-              <ReviewSection title="Business Structure & State" onEdit={() => handleEditAndGo(5)}>
-                <ReviewRow label="Entity Type" value={entity?.fullName} />
-                <ReviewRow label="State of Formation" value={formData.formationState} />
+              <ReviewSection title={t('checkout.modal.bizStructure')} onEdit={() => handleEditAndGo(5)}>
+                <ReviewRow label={t('checkout.modal.entityType')} value={entity?.fullName} />
+                <ReviewRow label={t('checkout.modal.stateFormation')} value={formData.formationState} />
               </ReviewSection>
 
-              <ReviewSection title="Business Address" onEdit={() => handleEditAndGo(6)}>
-                <ReviewRow label="Entity Name" value={`${formData.entityName}${suffix}`} />
-                <ReviewRow label="Address" value={fullAddress} />
+              <ReviewSection title={t('checkout.modal.bizAddress')} onEdit={() => handleEditAndGo(6)}>
+                <ReviewRow label={t('checkout.modal.entityName')} value={`${formData.entityName}${suffix}`} />
+                <ReviewRow label={t('checkout.modal.address')} value={fullAddress} />
               </ReviewSection>
 
               <ReviewSection title={entity?.memberLabel || 'Members'} onEdit={() => handleEditAndGo(7)}>
                 {formData.members.map((m, i) => (
                   <div key={i} className={i > 0 ? 'border-t border-slate-100 pt-2 mt-2' : ''}>
-                    <ReviewRow label={`Person ${i + 1}`} value={`${m.firstName} ${m.lastName}`} />
-                    <ReviewRow label="Title" value={m.title} />
-                    <ReviewRow label="Email" value={m.email} />
-                    {m.ownership && <ReviewRow label="Ownership" value={`${m.ownership}%`} />}
+                    <ReviewRow label={t('checkout.modal.personN', { n: i + 1 })} value={`${m.firstName} ${m.lastName}`} />
+                    <ReviewRow label={t('checkout.modal.title2')} value={m.title} />
+                    <ReviewRow label={t('checkout.modal.email')} value={m.email} />
+                    {m.ownership && <ReviewRow label={t('checkout.modal.ownership')} value={`${m.ownership}%`} />}
                   </div>
                 ))}
               </ReviewSection>
 
-              <ReviewSection title="Selected Plan" onEdit={() => handleEditAndGo(8)}>
-                <ReviewRow label="Plan" value={planName} />
-                {plan && <ReviewRow label="Plan Cost" value={`$${plan.biannualPrice} x 2 payments ($${plan.annualPrice}/yr) — billed after filing`} />}
-                <ReviewRow label="State Filing Fee" value={filingFee ? `$${filingFee} (${formData.formationState}) — due now` : '—'} />
+              <ReviewSection title={t('checkout.modal.selectedPlan')} onEdit={() => handleEditAndGo(8)}>
+                <ReviewRow label={t('checkout.modal.plan')} value={planName} />
+                {plan && <ReviewRow label={t('checkout.modal.planCost')} value={`$${plan.biannualPrice} x 2 payments ($${plan.annualPrice}/yr) — billed after filing`} />}
+                <ReviewRow label={t('checkout.modal.stateFee')} value={filingFee ? `$${filingFee} (${formData.formationState}) — due now` : '—'} />
               </ReviewSection>
 
               <p className="text-xs text-slate-400 text-center leading-relaxed pb-2">
-                By submitting this order, you agree to our Terms of Service and Privacy Policy.
+                {t('checkout.modal.terms')}
               </p>
             </div>
             {/* Modal footer */}
@@ -327,7 +330,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
                 onClick={() => setShowEditModal(false)}
                 className="w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-all"
               >
-                Done
+                {t('checkout.modal.done')}
               </button>
             </div>
           </div>

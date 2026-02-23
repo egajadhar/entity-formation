@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const PLANS = [
   {
@@ -68,6 +69,7 @@ const STATE_FILING_FEES = {
 }
 
 export default function PackageStep({ formData, onChange, taxSavingsEstimate, deductionSavingsEstimate }) {
+  const { t } = useLanguage()
   const [showComparison, setShowComparison] = useState(false)
   const industry = formData.purpose && formData.purpose !== 'Other' ? formData.purpose : ''
   const filingFee = STATE_FILING_FEES[formData.formationState] || null
@@ -103,7 +105,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Get Your Tax Savings Started</h2>
+      <h2 className="text-2xl font-bold text-slate-900 mb-1">{t('package.title')}</h2>
 
       <div className="grid gap-4 lg:grid-cols-2">
         {PLANS.map((plan) => {
@@ -123,7 +125,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    Recommended
+                    {t('package.recommended')}
                   </span>
                 </div>
               )}
@@ -132,19 +134,19 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
                 <h3 className="text-base font-bold text-slate-900">{planName}</h3>
                 <div className="flex items-baseline gap-1 mt-1">
                   <span className="text-xl font-bold text-slate-900">${plan.biannualPrice}</span>
-                  <span className="text-xs text-slate-500">every 6 months</span>
+                  <span className="text-xs text-slate-500">{t('package.per6mo')}</span>
                 </div>
-                <p className="text-xs text-slate-400 mt-0.5">${plan.annualPrice}/yr — first payment after formation + state filing fees</p>
+                <p className="text-xs text-slate-400 mt-0.5">{t('package.annualNote', { price: plan.annualPrice })}</p>
 
                 {/* Savings badge — inline to avoid overlap */}
                 {plan.id === 'independent' && deductionSavingsEstimate > 0 && (
                   <span className="inline-block mt-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-2 py-1 rounded-lg">
-                    Estimated Tax Savings ~${deductionSavingsEstimate.toLocaleString()}
+                    {t('package.savingsBadge', { amount: deductionSavingsEstimate.toLocaleString() })}
                   </span>
                 )}
                 {plan.id === 'covered' && taxSavingsEstimate > 0 && (
                   <span className="inline-block mt-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-2 py-1 rounded-lg">
-                    Estimated Tax Savings ~${taxSavingsEstimate.toLocaleString()}
+                    {t('package.savingsBadge', { amount: taxSavingsEstimate.toLocaleString() })}
                   </span>
                 )}
               </div>
@@ -166,7 +168,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
                   : 'bg-slate-100 text-slate-600'
                 }`}
               >
-                {selected ? 'Selected' : 'Select Plan'}
+                {selected ? t('package.selected') : t('package.selectPlan')}
               </div>
             </button>
           )
@@ -180,7 +182,9 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
             <path strokeLinecap="round" strokeLinejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
           </svg>
           <p className="text-sm text-slate-700">
-            <span className="font-semibold">{formData.formationState} state filing fee: ${filingFee}</span> — due today. Your plan subscription starts after your entity is filed.
+            <span className="font-semibold">
+              {t('package.filingFeeNote', { state: formData.formationState, fee: filingFee })}
+            </span>
           </p>
         </div>
       )}
@@ -196,7 +200,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </svg>
-        Compare Plans in Detail
+        {t('package.comparePlans')}
       </button>
 
       {/* Comparison Chart */}
@@ -205,9 +209,9 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="text-left px-4 py-3 font-semibold text-slate-700">Feature</th>
-                <th className="text-center px-4 py-3 font-semibold text-slate-700 w-28">Independent</th>
-                <th className="text-center px-4 py-3 font-semibold text-blue-600 w-28">Covered</th>
+                <th className="text-left px-4 py-3 font-semibold text-slate-700">{t('package.colFeature')}</th>
+                <th className="text-center px-4 py-3 font-semibold text-slate-700 w-28">{t('package.colIndependent')}</th>
+                <th className="text-center px-4 py-3 font-semibold text-blue-600 w-28">{t('package.colCovered')}</th>
               </tr>
             </thead>
             <tbody>

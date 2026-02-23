@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const REVENUE_OPTIONS = [
   { id: 'under-25k', label: 'Under $25k', topValue: 25000 },
@@ -114,6 +115,7 @@ function FireworkBurst({ left, top, delay = 0 }) {
 }
 
 export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated, variant, prefilledRevenue, isOperating }) {
+  const { t } = useLanguage()
   const isEstimate = variant === 'estimate'
   const [revenue, setRevenue] = useState(prefilledRevenue || '')
   const [teamSize, setTeamSize] = useState('solo')
@@ -136,11 +138,17 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
   minDate.setDate(minDate.getDate() + 1)
   const minDateStr = minDate.toISOString().split('T')[0]
 
+  const revenueLabel = isOperating === 'yes'
+    ? t('tax.revenueYes')
+    : isOperating === 'no'
+    ? t('tax.revenueNo')
+    : t('tax.revenueDefault')
+
   // Auto-hide fireworks after animation completes
   useEffect(() => {
     if (showFireworks) {
-      const t = setTimeout(() => setShowFireworks(false), 2500)
-      return () => clearTimeout(t)
+      const timer = setTimeout(() => setShowFireworks(false), 2500)
+      return () => clearTimeout(timer)
     }
   }, [showFireworks])
 
@@ -150,12 +158,6 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
       onSavingsCalculated({ total: totalSavings, deduction: deductionSavings })
     }
   }, [showResults, totalSavings, deductionSavings])
-
-  const revenueLabel = isOperating === 'yes'
-    ? 'How much do you bring in a year on your 1099, side hustle or gig (outside your W-2)?'
-    : isOperating === 'no'
-    ? 'How much do you expect to bring in a year on your 1099, side hustle or gig (outside your W-2)?'
-    : 'How much do you bring in a year outside your W-2?'
 
   function handleCalculate() {
     setShowResults(true)
@@ -174,6 +176,13 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
 
   // Scheduler page
   if (showScheduler) {
+    const schedulerItems = [
+      t('tax.scheduler.i1'),
+      t('tax.scheduler.i2'),
+      t('tax.scheduler.i3'),
+      t('tax.scheduler.i4'),
+    ]
+
     return (
       <div className="max-w-lg mx-auto">
         <div className="text-center mb-8">
@@ -183,25 +192,22 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
-            Schedule Your Tax Savings Consultation
+            {t('tax.scheduler.title')}
           </h2>
           <p className="text-slate-500">
-            Meet with a Small Business Tax Consultant to learn how to unlock up to <span className="font-semibold text-green-600">${totalSavings.toLocaleString()}/yr</span> in savings.
+            {t('tax.scheduler.sub')}{' '}
+            <span className="font-semibold text-green-600">${totalSavings.toLocaleString()}/yr</span>
+            {t('tax.scheduler.subEnd')}
           </p>
         </div>
 
         {/* What to expect */}
         <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6">
           <h3 className="text-sm font-semibold text-slate-700 mb-3">
-            In your free consultation, your advisor will:
+            {t('tax.scheduler.advisorTitle')}
           </h3>
           <ul className="space-y-2.5">
-            {[
-              'Review your current business structure and tax situation',
-              'Identify self-employment tax reduction strategies',
-              'Uncover deductions you may be missing',
-              'Build a personalized plan to maximize your savings',
-            ].map((item) => (
+            {schedulerItems.map((item) => (
               <li key={item} className="flex items-start gap-2 text-sm text-slate-600">
                 <svg className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
@@ -216,7 +222,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
         <div className="space-y-5">
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Preferred Date
+              {t('tax.scheduler.dateLabel')}
             </label>
             <input
               type="date"
@@ -229,7 +235,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Preferred Time
+              {t('tax.scheduler.timeLabel')}
             </label>
             <div className="grid grid-cols-4 gap-2">
               {TIME_SLOTS.map((slot) => (
@@ -254,11 +260,11 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           disabled={!scheduleDate || !scheduleTime}
           className="w-full mt-6 bg-blue-600 text-white py-3.5 rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
         >
-          Confirm Consultation
+          {t('tax.scheduler.confirmBtn')}
         </button>
 
         <p className="text-xs text-slate-400 text-center mt-3">
-          A Small Business Tax Consultant will reach out to confirm your appointment.
+          {t('tax.scheduler.confirmNote')}
         </p>
 
         {/* Back */}
@@ -269,7 +275,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
-          Back to Savings Estimate
+          {t('tax.scheduler.back')}
         </button>
       </div>
     )
@@ -280,14 +286,14 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
     <div className="max-w-lg mx-auto">
       <div className="text-center mb-10">
         <h2 className="text-2xl font-bold text-slate-900 mb-2">
-          {showResults ? 'Your estimated tax savings' : "Let's find your hidden tax savings"}
+          {showResults ? t('tax.titleResults') : t('tax.titleInitial')}
         </h2>
         <p className="text-slate-500">
           {showResults
-            ? 'Based on the income and details you provided.'
+            ? t('tax.subResults')
             : isEstimate
-              ? "Answer 3 quick questions so we can estimate your unlocked savings."
-              : "Answer 3 quick questions and we'll estimate how much more you could save."}
+              ? t('tax.subEstimate')
+              : t('tax.subDefault')}
         </p>
       </div>
 
@@ -309,7 +315,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
             style={showFireworks ? { animation: 'savingsPulse 0.9s ease-out 0.1s both' } : {}}
           >
             <p className="text-xs font-semibold text-green-600 uppercase tracking-wide mb-1">
-              Estimated Annual Savings
+              {t('tax.annualSavings')}
             </p>
             <p className="text-5xl font-bold text-green-700">
               $<AnimatedCounter target={totalSavings} startDelay={150} />
@@ -319,13 +325,13 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           {/* Breakdown */}
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
-              <p className="text-xs text-slate-500 mb-1">Self-Employment Tax Savings</p>
+              <p className="text-xs text-slate-500 mb-1">{t('tax.seSavings')}</p>
               <p className="text-xl font-bold text-slate-900">
                 $<AnimatedCounter target={seSavings} startDelay={350} />
               </p>
             </div>
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-center">
-              <p className="text-xs text-slate-500 mb-1">Additional Deduction Savings</p>
+              <p className="text-xs text-slate-500 mb-1">{t('tax.deductionSavings')}</p>
               <p className="text-xl font-bold text-slate-900">
                 $<AnimatedCounter target={deductionSavings} startDelay={350} />
               </p>
@@ -365,7 +371,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           {/* Q2: Team Size */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              How many people work for you?
+              {t('tax.teamLabel')}
             </label>
             <div className="grid grid-cols-4 gap-2 mt-2">
               {TEAM_OPTIONS.map((opt) => {
@@ -390,10 +396,10 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           {/* Q3: Tax Rate Slider */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              Effective Tax Bracket
+              {t('tax.bracketLabel')}
             </label>
             <p className="text-sm text-slate-400 mb-4">
-              This is typically 25%. We've estimated this for you.
+              {t('tax.bracketHelper')}
             </p>
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mt-2">
               <div className="text-center mb-4">
@@ -425,7 +431,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125" />
           </svg>
-          Edit Assumptions
+          {t('tax.editAssumptions')}
         </button>
       )}
 
@@ -436,7 +442,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           disabled={!revenue || !teamSize}
           className="w-full mt-8 bg-blue-600 text-white py-3.5 rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
         >
-          Calculate My Tax Savings
+          {t('tax.calculateBtn')}
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
@@ -446,7 +452,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           onClick={onContinue}
           className="w-full mt-6 bg-green-600 text-white py-3.5 rounded-xl text-sm font-semibold hover:bg-green-700 transition-all flex items-center justify-center gap-2"
         >
-          Lock In These Savings
+          {t('tax.lockBtn')}
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
           </svg>
@@ -456,7 +462,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           onClick={handleUnlock}
           className="w-full mt-6 bg-green-600 text-white py-3.5 rounded-xl text-sm font-semibold hover:bg-green-700 transition-all flex items-center justify-center gap-2"
         >
-          Unlock Tax Savings
+          {t('tax.unlockBtn')}
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
           </svg>
@@ -471,7 +477,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
         <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
         </svg>
-        Back
+        {t('tax.back')}
       </button>
 
       {/* Edit Assumptions Side Drawer */}
@@ -481,7 +487,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
           <div className="relative bg-white w-80 h-full shadow-2xl flex flex-col animate-[slideInRight_0.25s_ease-out]">
             {/* Drawer header */}
             <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 flex-shrink-0">
-              <h3 className="text-base font-bold text-slate-900">Edit Assumptions</h3>
+              <h3 className="text-base font-bold text-slate-900">{t('tax.editAssumptions')}</h3>
               <button onClick={() => setShowEditModal(false)} className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors">
                 <svg className="w-5 h-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -518,7 +524,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
               {/* Q2: Team Size */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-3">
-                  How many people work for you?
+                  {t('tax.teamLabel')}
                 </label>
                 <div className="grid grid-cols-4 gap-2">
                   {TEAM_OPTIONS.map((opt) => {
@@ -543,10 +549,10 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
               {/* Q3: Tax Rate Slider */}
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">
-                  Effective Tax Bracket
+                  {t('tax.bracketLabel')}
                 </label>
                 <p className="text-xs text-slate-400 mb-4">
-                  This is typically 25%. We've estimated this for you.
+                  {t('tax.bracketHelper')}
                 </p>
                 <div className="bg-slate-50 border border-slate-200 rounded-xl p-5">
                   <div className="text-center mb-4">
@@ -573,7 +579,7 @@ export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated
                 onClick={() => setShowEditModal(false)}
                 className="w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-semibold hover:bg-blue-700 transition-all"
               >
-                Update My Savings
+                {t('tax.updateBtn')}
               </button>
             </div>
           </div>
