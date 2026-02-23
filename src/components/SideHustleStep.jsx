@@ -1,15 +1,15 @@
-const REVENUE_OPTIONS = [
-  { id: 'under-25k', label: 'Under $25k' },
-  { id: '25k-50k', label: '$25k–$50k' },
-  { id: '50k-100k', label: '$50k–$100k' },
-  { id: '100k-250k', label: '$100k–$250k' },
-  { id: '250k-plus', label: '$250k+' },
-]
-
 import { useLanguage } from '../contexts/LanguageContext'
 
 export default function SideHustleStep({ formData, onChange }) {
   const { t } = useLanguage()
+
+  const REVENUE_OPTIONS = [
+    { id: 'under-25k', label: t('hustle.rev1') },
+    { id: '25k-50k', label: t('hustle.rev2') },
+    { id: '50k-100k', label: t('hustle.rev3') },
+    { id: '100k-250k', label: t('hustle.rev4') },
+    { id: '250k-plus', label: t('hustle.rev5') },
+  ]
   const inputClass =
     'w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
 

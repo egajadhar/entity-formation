@@ -128,6 +128,11 @@ const strings = {
     'hustle.opt2Desc': "I'm planning to start soon and want to set it up right.",
     'hustle.revenueYes': 'How much do you bring in a year on your side hustle or business?',
     'hustle.revenueNo': 'How much do you expect to bring in?',
+    'hustle.rev1': 'Under $25k',
+    'hustle.rev2': '$25k–$50k',
+    'hustle.rev3': '$50k–$100k',
+    'hustle.rev4': '$100k–$250k',
+    'hustle.rev5': '$250k+',
 
     // LocationIndustryStep
     'location.titleYes': 'Where is your business based?',
@@ -468,6 +473,11 @@ const strings = {
     'hustle.opt2Desc': 'Planeo comenzar pronto y quiero configurarlo correctamente.',
     'hustle.revenueYes': '¿Cuánto generas al año con tu trabajo independiente o negocio?',
     'hustle.revenueNo': '¿Cuánto esperas generar?',
+    'hustle.rev1': 'Menos de $25k',
+    'hustle.rev2': '$25k–$50k',
+    'hustle.rev3': '$50k–$100k',
+    'hustle.rev4': '$100k–$250k',
+    'hustle.rev5': '$250k+',
 
     // LocationIndustryStep
     'location.titleYes': '¿Dónde está ubicado tu negocio?',
