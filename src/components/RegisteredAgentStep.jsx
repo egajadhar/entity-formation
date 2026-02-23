@@ -1,17 +1,19 @@
 import { US_STATES } from '../data/constants'
 
-export default function RegisteredAgentStep({ formData, onChange }) {
+export default function RegisteredAgentStep({ formData, onChange, onSubmit }) {
   const agent = formData.registeredAgent
 
   function handleAgentChange(field, value) {
     onChange({ registeredAgent: { ...agent, [field]: value } })
   }
 
+  const canSubmit = agent.useOurs || (agent.name && agent.street && agent.city && agent.state && agent.zip)
+
   return (
     <div>
       <h2 className="text-2xl font-bold text-slate-900 mb-1">Registered Agent</h2>
       <p className="text-slate-500 mb-8">
-        Every entity needs a registered agent to receive legal documents on its behalf.
+        Every business needs a registered agent to receive legal documents on its behalf.
       </p>
 
       {/* Option toggle */}
@@ -30,10 +32,13 @@ export default function RegisteredAgentStep({ formData, onChange }) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" />
               </svg>
             </div>
-            <span className="font-semibold text-slate-900">Use Our Service</span>
+            <div>
+              <span className="font-semibold text-slate-900">Use Our Service</span>
+              <span className="ml-2 text-sm font-semibold text-blue-600">$99/yr</span>
+            </div>
           </div>
           <p className="text-sm text-slate-500">
-            We'll serve as your registered agent. First year included with Standard & Premium packages.
+            We'll serve as your registered agent for $99 a year, billed annually after formation.
           </p>
           <div className="mt-3 inline-block bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-1 rounded-full">
             Recommended
@@ -64,7 +69,7 @@ export default function RegisteredAgentStep({ formData, onChange }) {
 
       {/* Our service info */}
       {agent.useOurs && (
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-5">
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-5 mb-8">
           <h3 className="font-semibold text-slate-900 mb-2">Our Registered Agent Service Includes:</h3>
           <ul className="space-y-2">
             {[
@@ -87,7 +92,7 @@ export default function RegisteredAgentStep({ formData, onChange }) {
 
       {/* Custom agent form */}
       {!agent.useOurs && (
-        <div className="space-y-4">
+        <div className="space-y-4 mb-8">
           <div>
             <label className="block text-sm font-semibold text-slate-700 mb-2">
               Agent Name <span className="text-red-500">*</span>
@@ -156,6 +161,18 @@ export default function RegisteredAgentStep({ formData, onChange }) {
           </div>
         </div>
       )}
+
+      {/* Submit */}
+      <button
+        onClick={onSubmit}
+        disabled={!canSubmit}
+        className="w-full bg-blue-600 text-white py-3.5 rounded-xl text-sm font-semibold hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+      >
+        Confirm Registered Agent
+        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+        </svg>
+      </button>
     </div>
   )
 }

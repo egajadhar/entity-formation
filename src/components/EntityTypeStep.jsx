@@ -1,4 +1,5 @@
 import { ENTITY_TYPES, US_STATES } from '../data/constants'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const icons = {
   shield: (
@@ -28,11 +29,12 @@ const icons = {
   ),
 }
 
-export default function EntityTypeStep({ formData, onChange }) {
+export default function EntityTypeStep({ formData, onChange, taxSavingsEstimate }) {
+  const { t } = useLanguage()
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Choose Your Entity Type</h2>
-      <p className="text-slate-500 mb-8">Select the type of business entity you want to form.</p>
+      <h2 className="text-2xl font-bold text-slate-900 mb-1">{t('entityType.title')}</h2>
+      <p className="text-slate-500 mb-8">{t('entityType.sub')}</p>
 
       {/* Entity cards */}
       <div className="grid gap-3 mb-8">
@@ -56,9 +58,16 @@ export default function EntityTypeStep({ formData, onChange }) {
                   <span className="font-semibold text-slate-900">{entity.name}</span>
                   <span className="text-xs text-slate-400">{entity.fullName}</span>
                   {entity.id === 'llc' && (
-                    <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                      Most Popular
-                    </span>
+                    <>
+                      <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                        {t('entityType.badge')}
+                      </span>
+                      {taxSavingsEstimate > 0 && (
+                        <span className="bg-green-100 text-green-700 border border-green-200 text-xs font-bold px-2 py-0.5 rounded-full">
+                          ~${taxSavingsEstimate.toLocaleString()}/yr saved
+                        </span>
+                      )}
+                    </>
                   )}
                 </div>
                 <p className="text-sm text-slate-500 mt-0.5">{entity.description}</p>
@@ -76,20 +85,20 @@ export default function EntityTypeStep({ formData, onChange }) {
       {/* State selection */}
       <div>
         <label className="block text-sm font-semibold text-slate-700 mb-2">
-          State of Formation
+          {t('entityType.stateLabel')}
         </label>
         <select
           value={formData.formationState}
           onChange={(e) => onChange({ formationState: e.target.value })}
           className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none"
         >
-          <option value="">Select a state...</option>
+          <option value="">{t('entityType.statePH')}</option>
           {US_STATES.map((st) => (
             <option key={st} value={st}>{st}</option>
           ))}
         </select>
         <p className="text-sm text-slate-400 mt-3">
-          Most businesses form their LLC in the same state they operate in. Unless you have a specific reason, we recommend keeping it simple.
+          {t('entityType.stateHelper')}
         </p>
       </div>
     </div>

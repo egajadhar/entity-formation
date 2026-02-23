@@ -1,13 +1,16 @@
-const STEPS = [
-  { label: 'Entity Type' },
-  { label: 'Address' },
-  { label: 'People' },
-  { label: 'Package' },
-  { label: 'Review' },
-  { label: 'Checkout' },
-]
+import { useLanguage } from '../contexts/LanguageContext'
 
 export default function ProgressBar({ currentStep }) {
+  const { t } = useLanguage()
+
+  const STEPS = [
+    { label: t('progress.s1') },
+    { label: t('progress.s2') },
+    { label: t('progress.s3') },
+    { label: t('progress.s4') },
+    { label: t('progress.s5') },
+  ]
+
   // Don't show progress bar on intro/conversational screens (steps 1-4)
   if (currentStep <= 4) return null
 
@@ -64,7 +67,7 @@ export default function ProgressBar({ currentStep }) {
       <div className="md:hidden">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-semibold text-blue-600">
-            Step {displayStep} of {STEPS.length}
+            {t('progress.stepOf', { n: displayStep, total: STEPS.length })}
           </span>
           <span className="text-sm text-slate-500">{STEPS[displayStep - 1].label}</span>
         </div>

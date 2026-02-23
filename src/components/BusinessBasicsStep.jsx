@@ -1,162 +1,116 @@
-import { US_STATES } from '../data/constants'
-
-const INDUSTRY_TILES = [
-  {
-    id: 'Construction',
-    label: 'Construction',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085" />
-      </svg>
-    ),
-  },
-  {
-    id: 'Consulting / Freelance',
-    label: 'Consulting / Freelance',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155" />
-      </svg>
-    ),
-  },
-  {
-    id: 'E-Commerce / Retail',
-    label: 'E-Commerce / Retail',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'Food & Beverage',
-    label: 'Food & Beverage',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8.25v-1.5m0 1.5c-1.355 0-2.697.056-4.024.166C6.845 8.51 6 9.473 6 10.608v2.513m6-4.871c1.355 0 2.697.056 4.024.166C17.155 8.51 18 9.473 18 10.608v2.513M15 8.25v-1.5m-6 1.5v-1.5m12 9.75l-1.5.75a3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0 3.354 3.354 0 00-3 0 3.354 3.354 0 01-3 0L3 16.5m15-3.379a48.474 48.474 0 00-6-.371c-2.032 0-4.034.126-6 .371m12 0c.39.049.777.102 1.163.16 1.07.16 1.837 1.094 1.837 2.175v5.169c0 .621-.504 1.125-1.125 1.125H4.125A1.125 1.125 0 013 20.625v-5.17c0-1.08.768-2.014 1.837-2.174A47.78 47.78 0 016 13.12M12.265 3.11a.375.375 0 11-.53 0L12 2.845l.265.265z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'Real Estate',
-    label: 'Real Estate',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" />
-      </svg>
-    ),
-  },
-  {
-    id: 'Rideshare / Delivery',
-    label: 'Rideshare / Delivery',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'Technology',
-    label: 'Technology',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25A2.25 2.25 0 015.25 3h13.5A2.25 2.25 0 0121 5.25z" />
-      </svg>
-    ),
-  },
-  {
-    id: 'Trucking',
-    label: 'Trucking',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
-      </svg>
-    ),
-  },
-  {
-    id: 'Other',
-    label: 'Other',
-    icon: (
-      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-      </svg>
-    ),
-  },
-]
+import { useLanguage } from '../contexts/LanguageContext'
 
 export default function BusinessBasicsStep({ formData, onChange }) {
+  const { t } = useLanguage()
+  const owner = formData.owners[0] || {}
+
+  function updateOwner(field, value) {
+    onChange({ owners: [{ ...owner, [field]: value }] })
+  }
+
+  const inputClass =
+    'w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all'
+
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-10">
-        <h2 className="text-2xl font-bold text-slate-900 mb-2">
-          Welcome! Let's get started.
+        {/* Badges */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-6">
+          <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200 text-amber-700 text-xs font-semibold px-4 py-2 rounded-full">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z" />
+            </svg>
+            {t('basics.badge1')}
+          </div>
+          <div className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 text-blue-700 text-xs font-semibold px-4 py-2 rounded-full">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
+            </svg>
+            {t('basics.badge2')}
+          </div>
+        </div>
+
+        <h2 className="text-3xl font-extrabold text-slate-900 mb-3 leading-tight">
+          {t('basics.title')}
         </h2>
-        <p className="text-slate-500">
-          First, tell us a little about your business so we can point you in the right direction.
+        <p className="text-slate-500 max-w-md mx-auto">
+          {t('basics.sub')}
         </p>
       </div>
 
-      <div className="space-y-8">
-        {/* State */}
-        <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
-            What state do you operate or plan to operate in?
-          </label>
-          <p className="text-sm text-slate-400 mb-3">
-            This helps us tailor things like state filing requirements and tax rules for you.
-          </p>
-          <select
-            value={formData.businessState}
-            onChange={(e) => onChange({ businessState: e.target.value })}
-            className="w-full bg-white border border-slate-300 rounded-xl px-4 py-3 text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none"
-          >
-            <option value="">Select your state...</option>
-            {US_STATES.map((st) => (
-              <option key={st} value={st}>{st}</option>
-            ))}
-          </select>
-        </div>
-
-        {/* Industry tiles */}
-        <div>
-          <label className="block text-sm font-medium text-slate-700 mb-1">
-            What kind of business are you in?
-          </label>
-          <p className="text-sm text-slate-400 mb-3">
-            We'll use this to customize your plan and connect you with the right expertise.
-          </p>
-          <div className="grid grid-cols-3 gap-3">
-            {INDUSTRY_TILES.map((tile) => {
-              const selected = formData.purpose === tile.id
-              return (
-                <button
-                  key={tile.id}
-                  onClick={() => onChange({ purpose: tile.id })}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all text-center
-                    ${selected
-                      ? 'border-blue-600 bg-blue-50 ring-1 ring-blue-600'
-                      : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
-                    }`}
-                >
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${
-                    selected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'
-                  }`}>
-                    {tile.icon}
-                  </div>
-                  <span className={`text-sm font-medium ${selected ? 'text-blue-700' : 'text-slate-700'}`}>
-                    {tile.label}
-                  </span>
-                </button>
-              )
-            })}
+      <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">{t('basics.firstName')}</label>
+            <input
+              type="text"
+              value={owner.firstName || ''}
+              onChange={(e) => updateOwner('firstName', e.target.value)}
+              placeholder={t('basics.firstPH')}
+              className={inputClass}
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">{t('basics.lastName')}</label>
+            <input
+              type="text"
+              value={owner.lastName || ''}
+              onChange={(e) => updateOwner('lastName', e.target.value)}
+              placeholder={t('basics.lastPH')}
+              className={inputClass}
+            />
           </div>
         </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">{t('basics.email')}</label>
+          <input
+            type="email"
+            value={owner.email || ''}
+            onChange={(e) => updateOwner('email', e.target.value)}
+            placeholder={t('basics.emailPH')}
+            className={inputClass}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">{t('basics.phone')}</label>
+          <input
+            type="tel"
+            value={owner.phone || ''}
+            onChange={(e) => updateOwner('phone', e.target.value)}
+            placeholder={t('basics.phonePH')}
+            className={inputClass}
+          />
+        </div>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3 py-1">
+          <div className="flex-1 h-px bg-slate-200" />
+          <span className="text-xs text-slate-400 font-medium">{t('basics.ssoOr')}</span>
+          <div className="flex-1 h-px bg-slate-200" />
+        </div>
+
+        {/* Google SSO */}
+        <button
+          type="button"
+          onClick={() => {}}
+          className="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:border-slate-400 transition-all shadow-sm"
+        >
+          {/* Google "G" logo */}
+          <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          {t('basics.google')}
+        </button>
       </div>
 
-      {formData.businessState && formData.purpose && (
+      {owner.firstName && (
         <p className="text-center text-sm text-slate-400 mt-8">
-          Great — a {formData.purpose.toLowerCase()} business in {formData.businessState}. Let's keep going!
+          {t('basics.greeting', { name: owner.firstName })}
         </p>
       )}
     </div>

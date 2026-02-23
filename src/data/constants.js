@@ -15,14 +15,6 @@ export const ENTITY_TYPES = [
     memberLabel: 'Directors & Officers',
     icon: 'building',
   },
-  {
-    id: 'nonprofit',
-    name: 'Non-Profit',
-    fullName: 'Non-Profit Organization',
-    description: 'Tax-exempt organization for charitable, educational, or religious purposes.',
-    memberLabel: 'Directors',
-    icon: 'heart',
-  },
 ]
 
 export const US_STATES = [
@@ -58,20 +50,22 @@ export const MANAGEMENT_TYPES = {
 }
 
 export const INITIAL_FORM_DATA = {
-  // Step 1 - Business basics
-  businessState: '',
-  purpose: '',
-
-  // Step 2 - Entity question
-  hasEntity: '',
-
-  // Step 3 - Business name & timeline
-  startTimeline: '',
-
-  // Step 4 - Owners
+  // Step 1 - Personal info
   owners: [
     { firstName: '', lastName: '', email: '', phone: '' },
   ],
+
+  // Step 2 - Side hustle
+  isOperating: '',
+  annualRevenue: '',
+
+  // Step 3 - Location & industry
+  businessState: '',
+  purpose: '',
+
+  // Step 4 - Entity question + business name/timeline
+  hasEntity: '',
+  startTimeline: '',
 
   // Step 5 - Entity type & formation state
   entityType: '',

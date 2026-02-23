@@ -40,7 +40,7 @@ export default function BusinessNameStep({ formData, onChange }) {
             When do you want to be up and running?
           </label>
           <p className="text-sm text-slate-400 mb-3">
-            This helps us prioritize your filing and make sure we hit your timeline.
+            The sooner you're set up, the sooner you start saving on taxes.
           </p>
           <div className="space-y-3">
             {TIMELINES.map((t) => {
@@ -71,9 +71,9 @@ export default function BusinessNameStep({ formData, onChange }) {
 
           {formData.startTimeline && (
             <p className="text-sm text-blue-600 font-medium mt-3">
-              {formData.startTimeline === 'asap' && "We love the energy! We'll fast-track your filing so you can hit the ground running."}
-              {formData.startTimeline === 'this-month' && "Great timing — we'll have everything filed and ready to go within the month."}
-              {formData.startTimeline === 'few-months' && "Smart move getting a head start. We'll have everything lined up so you're ready when the time comes."}
+              {formData.startTimeline === 'asap' && "We love the urgency — every month you wait is money left on the table. Let's unlock your savings now."}
+              {formData.startTimeline === 'this-month' && "Great — we'll get your setup locked in so your tax savings kick in as soon as possible."}
+              {formData.startTimeline === 'few-months' && "Smart to plan ahead. We'll make sure your business is optimized so you're saving from day one."}
             </p>
           )}
         </div>

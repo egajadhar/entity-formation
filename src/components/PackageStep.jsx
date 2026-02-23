@@ -8,14 +8,10 @@ const PLANS = [
     annualPrice: 398,
     biannualPrice: 199,
     features: [
-      'Set Up Your Business Entity for Tax Savings and Compliance',
-      'Employer Identification Number (EIN)',
-      'Operating Agreement',
-      'Business Tax Preparation',
-      'Monthly Ai Bookkeeping',
-      'Quarterly Estimated Tax Compliance',
-      '1099 Issuance for Sub-Contractors',
-      'Expert Access: Ai, Webinar',
+      'File Your Tax Returns',
+      'Manage Your Accounting',
+      'Achieve Tax Savings',
+      'Register Your Business',
     ],
   },
   {
@@ -27,10 +23,8 @@ const PLANS = [
     biannualPrice: 299,
     features: [
       'Everything in the Independent Operator Plan',
-      'Personal Tax Preparation',
+      'Access to On-Demand Tax Expert',
       'CPA Review of Taxes',
-      'Live Expert Access: Hotline',
-      'Payroll Setup for Self or Future Employees',
     ],
   },
 ]
@@ -73,21 +67,25 @@ const STATE_FILING_FEES = {
   'Wyoming': 103,
 }
 
-export default function PackageStep({ formData, onChange }) {
+export default function PackageStep({ formData, onChange, taxSavingsEstimate, deductionSavingsEstimate }) {
   const [showComparison, setShowComparison] = useState(false)
   const industry = formData.purpose && formData.purpose !== 'Other' ? formData.purpose : ''
   const filingFee = STATE_FILING_FEES[formData.formationState] || null
   const industryLabel = industry ? ` ${industry}` : ''
   const stateTaxFiling = STATE_TAX_FILINGS[formData.formationState] || null
 
+  const isExistingBusiness = formData.hasEntity === 'yes'
+
   // Build dynamic plan features for Independent Operator
   const independentFeatures = [
-    ...PLANS[0].features,
+    ...PLANS[0].features.filter((f) => isExistingBusiness ? f !== 'Register Your Business' : true),
     ...(stateTaxFiling ? [stateTaxFiling] : []),
   ]
 
-  // Covered includes everything in Independent, so no need to list it separately
-  const coveredFeatures = PLANS[1].features
+  // Covered includes everything in Independent, plus extra for existing businesses
+  const coveredFeatures = isExistingBusiness
+    ? [...PLANS[1].features, 'Business Tax Optimization']
+    : PLANS[1].features
 
   // Build dynamic comparison rows - insert state tax filing just before covered-only items
   const comparisonRows = stateTaxFiling
@@ -105,10 +103,7 @@ export default function PackageStep({ formData, onChange }) {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold text-slate-900 mb-1">Select Your Plan</h2>
-      <p className="text-slate-500 mb-8">
-        Choose the plan that best fits your needs.
-      </p>
+      <h2 className="text-2xl font-bold text-slate-900 mb-1">Get Your Tax Savings Started</h2>
 
       <div className="grid gap-4 lg:grid-cols-2">
         {PLANS.map((plan) => {
@@ -128,7 +123,7 @@ export default function PackageStep({ formData, onChange }) {
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                   <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    Most Popular
+                    Recommended
                   </span>
                 </div>
               )}
@@ -140,6 +135,18 @@ export default function PackageStep({ formData, onChange }) {
                   <span className="text-xs text-slate-500">every 6 months</span>
                 </div>
                 <p className="text-xs text-slate-400 mt-0.5">${plan.annualPrice}/yr — first payment after formation + state filing fees</p>
+
+                {/* Savings badge — inline to avoid overlap */}
+                {plan.id === 'independent' && deductionSavingsEstimate > 0 && (
+                  <span className="inline-block mt-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-2 py-1 rounded-lg">
+                    Estimated Tax Savings ~${deductionSavingsEstimate.toLocaleString()}
+                  </span>
+                )}
+                {plan.id === 'covered' && taxSavingsEstimate > 0 && (
+                  <span className="inline-block mt-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-2 py-1 rounded-lg">
+                    Estimated Tax Savings ~${taxSavingsEstimate.toLocaleString()}
+                  </span>
+                )}
               </div>
 
               <ul className="space-y-1.5 flex-1">

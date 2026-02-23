@@ -1,4 +1,5 @@
 import { ENTITY_TYPES } from '../data/constants'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const TITLES = {
   llc: ['Member', 'Manager', 'Managing Member'],
@@ -9,6 +10,7 @@ const TITLES = {
 }
 
 export default function MembersStep({ formData, onChange }) {
+  const { t } = useLanguage()
   const entity = ENTITY_TYPES.find((e) => e.id === formData.entityType)
   const titles = TITLES[formData.entityType] || ['Member']
   const totalOwnership = formData.members.reduce((sum, m) => sum + (parseFloat(m.ownership) || 0), 0)
@@ -42,7 +44,7 @@ export default function MembersStep({ formData, onChange }) {
         {entity?.memberLabel || 'Members'}
       </h2>
       <p className="text-slate-500 mb-8">
-        Add the people who will be part of your {entity?.fullName || 'entity'}.
+        {t('members.sub', { entity: entity?.fullName || 'entity' })}
       </p>
 
       <div className="space-y-4">
@@ -53,14 +55,14 @@ export default function MembersStep({ formData, onChange }) {
           >
             <div className="flex items-center justify-between mb-4">
               <span className="text-sm font-semibold text-slate-700">
-                Person {index + 1}
+                {t('members.personN', { n: index + 1 })}
               </span>
               {formData.members.length > 1 && (
                 <button
                   onClick={() => removeMember(index)}
                   className="text-sm text-red-500 hover:text-red-700 font-medium transition-colors"
                 >
-                  Remove
+                  {t('members.remove')}
                 </button>
               )}
             </div>
@@ -69,25 +71,25 @@ export default function MembersStep({ formData, onChange }) {
               <div className="grid sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">
-                    First Name <span className="text-red-500">*</span>
+                    {t('members.firstName')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={member.firstName}
                     onChange={(e) => updateMember(index, 'firstName', e.target.value)}
-                    placeholder="First name"
+                    placeholder={t('members.firstPH')}
                     className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">
-                    Last Name <span className="text-red-500">*</span>
+                    {t('members.lastName')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={member.lastName}
                     onChange={(e) => updateMember(index, 'lastName', e.target.value)}
-                    placeholder="Last name"
+                    placeholder={t('members.lastPH')}
                     className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
@@ -96,28 +98,28 @@ export default function MembersStep({ formData, onChange }) {
               <div className="grid sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">
-                    Title / Role <span className="text-red-500">*</span>
+                    {t('members.titleRole')} <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={member.title}
                     onChange={(e) => updateMember(index, 'title', e.target.value)}
                     className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all appearance-none"
                   >
-                    <option value="">Select title...</option>
-                    {titles.map((t) => (
-                      <option key={t} value={t}>{t}</option>
+                    <option value="">{t('members.titlePH')}</option>
+                    {titles.map((title) => (
+                      <option key={title} value={title}>{title}</option>
                     ))}
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-slate-500 mb-1">
-                    Email <span className="text-red-500">*</span>
+                    {t('members.email')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="email"
                     value={member.email}
                     onChange={(e) => updateMember(index, 'email', e.target.value)}
-                    placeholder="email@example.com"
+                    placeholder={t('members.emailPH')}
                     className="w-full bg-white border border-slate-300 rounded-lg px-3 py-2.5 text-slate-900 placeholder-slate-400 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
@@ -125,7 +127,7 @@ export default function MembersStep({ formData, onChange }) {
 
               <div className="sm:w-1/2">
                   <label className="block text-xs font-medium text-slate-500 mb-1">
-                    Ownership % <span className="text-red-500">*</span>
+                    {t('members.ownership')} <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="number"
@@ -149,7 +151,7 @@ export default function MembersStep({ formData, onChange }) {
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
         </svg>
-        Add Another Person
+        {t('members.addAnother')}
       </button>
 
       {hasAnyOwnership && (
@@ -169,8 +171,8 @@ export default function MembersStep({ formData, onChange }) {
           )}
           <span>
             {ownershipValid
-              ? 'Ownership totals 100%.'
-              : `Ownership must equal 100%. Current total: ${totalOwnership}%.`}
+              ? t('members.ownershipValid')
+              : t('members.ownershipInvalid', { total: totalOwnership })}
           </span>
         </div>
       )}
