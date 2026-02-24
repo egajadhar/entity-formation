@@ -427,8 +427,8 @@ function Pricing({ onStart }) {
 // ─── TESTIMONIALS ───
 function Testimonials() {
   const t = [
-    { name: "Marcus T.", role: "Rideshare Driver", text: "I had no idea I was overpaying by $6,000 a year. FormRight's accountant set me up with an S-Corp and now I keep way more of what I earn.", save: "$6,200" },
-    { name: "Jessica R.", role: "Freelance Designer", text: "Other companies just filed my LLC and left. FormRight actually does my taxes and bookkeeping. The AI bookkeeping alone saves me hours every month.", save: "$8,400" },
+    { name: "Marcus T.", role: "Rideshare Driver", text: "I had no idea I was overpaying by $6,000 a year. 1-800Accountant's accountant set me up with an S-Corp and now I keep way more of what I earn.", save: "$6,200" },
+    { name: "Jessica R.", role: "Freelance Designer", text: "Other companies just filed my LLC and left. 1-800Accountant actually does my taxes and bookkeeping. The AI bookkeeping alone saves me hours every month.", save: "$8,400" },
     { name: "David K.", role: "Consultant", text: "Talking to an accountant before forming was a game changer. I would have picked the wrong entity type without their guidance.", save: "$11,200" },
   ];
   return (
@@ -468,7 +468,7 @@ function FAQ() {
   const [open, setOpen] = useState(null);
   const qs = [
     { q: "Why should I talk to an accountant before forming my business?", a: "Because the entity type and tax election you choose determines how much you save. An LLC taxed as a sole proprietorship saves you nothing on self-employment tax. An LLC with an S-Corp election can save you thousands. The right answer depends on your income, expenses, and situation — and an accountant can figure that out in one conversation." },
-    { q: "How is FormRight different from LegalZoom, ZenBusiness, etc.?", a: "They file your paperwork. That's it. We start with an accountant consultation, form your entity with the right tax strategy, then handle your bookkeeping, tax prep, quarterly estimates, and ongoing optimization. Formation is just the first step — the tax savings are the whole point." },
+    { q: "How is 1-800Accountant different from LegalZoom, ZenBusiness, etc.?", a: "They file your paperwork. That's it. We start with an accountant consultation, form your entity with the right tax strategy, then handle your bookkeeping, tax prep, quarterly estimates, and ongoing optimization. Formation is just the first step — the tax savings are the whole point." },
     { q: "I'm a gig worker making under $50K. Is this worth it?", a: "Yes. Even at $30-40K in 1099 income, the right entity structure can save you $3,000-5,000/year in self-employment tax alone. Our Independent plan pays for itself many times over." },
     { q: "What is an S-Corp election and why does it matter?", a: "An S-Corp election lets you split your income into salary and distributions. You only pay self-employment tax (15.3%) on the salary portion. On $100K in income, this can easily save you $7,000+ per year. We handle the Form 2553 filing with the IRS." },
     { q: "Do I need an EIN?", a: "Yes — it's your business's identity number with the IRS. You need it to open a business bank account, file taxes as a business, and make your S-Corp election. We can get one for you, typically within one business day." },
