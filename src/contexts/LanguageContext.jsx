@@ -59,7 +59,7 @@ const strings = {
     'success.confirmBtn': 'Confirm Onboarding Call',
     'success.calendarNote': "We'll send a calendar invite to {email} with your call details.",
     'success.agentBtn': 'Set Up Your Registered Agent',
-    'success.newFormation': 'Start a new formation',
+    'success.newFormation': 'Return to Start',
 
     // Registered agent back link
     'agent.backToOrder': 'Back to Order Confirmation',
@@ -451,7 +451,7 @@ const strings = {
     'success.confirmBtn': 'Confirmar Llamada de Incorporación',
     'success.calendarNote': 'Enviaremos una invitación de calendario a {email} con los detalles de tu llamada.',
     'success.agentBtn': 'Configurar Tu Agente Registrado',
-    'success.newFormation': 'Iniciar una nueva formación',
+    'success.newFormation': 'Volver al Inicio',
 
     // Registered agent back link
     'agent.backToOrder': 'Volver a Confirmación de Pedido',
