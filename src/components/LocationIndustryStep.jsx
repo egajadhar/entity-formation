@@ -49,6 +49,18 @@ const INDUSTRY_ICONS = {
   ),
 }
 
+const INDUSTRY_T_KEYS = {
+  'Construction': 'ind.Construction',
+  'Consulting / Freelance': 'ind.Consulting',
+  'E-Commerce / Retail': 'ind.ECommerce',
+  'Food & Beverage': 'ind.Food',
+  'Real Estate': 'ind.RealEstate',
+  'Rideshare / Delivery': 'ind.Rideshare',
+  'Technology': 'ind.Technology',
+  'Trucking': 'ind.Trucking',
+  'Other': 'ind.Other',
+}
+
 export default function LocationIndustryStep({ formData, onChange }) {
   const { t } = useLanguage()
   const isOperating = formData.isOperating === 'yes'
@@ -104,7 +116,7 @@ export default function LocationIndustryStep({ formData, onChange }) {
                 }`}>
                   {INDUSTRY_ICONS[industry]}
                 </div>
-                <span className="text-xs font-semibold text-slate-700 leading-tight">{industry}</span>
+                <span className="text-xs font-semibold text-slate-700 leading-tight">{t(INDUSTRY_T_KEYS[industry] || industry)}</span>
               </button>
             )
           })}
@@ -122,7 +134,7 @@ export default function LocationIndustryStep({ formData, onChange }) {
             }`}>
               {INDUSTRY_ICONS['Other']}
             </div>
-            <span className="text-xs font-semibold text-slate-700 leading-tight">Other</span>
+            <span className="text-xs font-semibold text-slate-700 leading-tight">{t('ind.Other')}</span>
           </button>
         </div>
       </div>

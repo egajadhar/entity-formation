@@ -3,9 +3,16 @@ import { US_STATES, ENTITY_TYPES } from '../data/constants'
 import { useLanguage } from '../contexts/LanguageContext'
 
 const PLANS = [
-  { id: 'independent', prefix: 'Independent Operator', biannualPrice: 199, annualPrice: 398 },
-  { id: 'covered', prefix: 'Covered', biannualPrice: 299, annualPrice: 598 },
+  { id: 'independent', biannualPrice: 199, annualPrice: 398 },
+  { id: 'covered', biannualPrice: 299, annualPrice: 598 },
 ]
+
+const INDUSTRY_T_KEYS = {
+  'Construction': 'ind.Construction', 'Consulting / Freelance': 'ind.Consulting',
+  'E-Commerce / Retail': 'ind.ECommerce', 'Food & Beverage': 'ind.Food',
+  'Real Estate': 'ind.RealEstate', 'Rideshare / Delivery': 'ind.Rideshare',
+  'Technology': 'ind.Technology', 'Trucking': 'ind.Trucking', 'Other': 'ind.Other',
+}
 
 const STATE_FILING_FEES = {
   'Alabama': 236, 'Alaska': 250, 'Arizona': 85, 'Arkansas': 45, 'California': 70,
@@ -72,7 +79,9 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
   const filingFee = isExistingBusiness ? 0 : (STATE_FILING_FEES[formData.formationState] || 0)
   const plan = PLANS.find((p) => p.id === formData.selectedPackage)
   const industry = formData.purpose && formData.purpose !== 'Other' ? formData.purpose : ''
-  const planName = plan ? `${plan.prefix}${industry ? ` ${industry}` : ''} Plan` : '—'
+  const translatedIndustry = industry && INDUSTRY_T_KEYS[industry] ? t(INDUSTRY_T_KEYS[industry]) : industry
+  const planPrefix = plan ? t(`plan.${plan.id}`) : ''
+  const planName = plan ? `${planPrefix}${translatedIndustry ? ` ${translatedIndustry}` : ''} Plan` : '—'
   const totalDue = isExistingBusiness ? (plan?.biannualPrice || 0) : filingFee
 
   // Review modal derived values

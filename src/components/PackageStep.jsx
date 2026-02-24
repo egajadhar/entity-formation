@@ -4,45 +4,33 @@ import { useLanguage } from '../contexts/LanguageContext'
 const PLANS = [
   {
     id: 'independent',
-    prefix: 'Independent Operator',
-    description: 'Essential formation services to get your business up and running.',
     annualPrice: 398,
     biannualPrice: 199,
-    features: [
-      'File Your Tax Returns',
-      'Manage Your Accounting',
-      'Achieve Tax Savings',
-      'Register Your Business',
-    ],
+    features: ['File Your Tax Returns', 'Manage Your Accounting', 'Achieve Tax Savings', 'Register Your Business'],
   },
   {
     id: 'covered',
-    prefix: 'Covered',
     popular: true,
-    description: 'Comprehensive package with ongoing support and compliance.',
     annualPrice: 598,
     biannualPrice: 299,
-    features: [
-      'Everything in the Independent Operator Plan',
-      'Access to On-Demand Tax Expert',
-      'CPA Review of Taxes',
-    ],
+    features: ['Everything in the Independent Operator Plan', 'Access to On-Demand Tax Expert', 'CPA Review of Taxes'],
   },
 ]
 
+// tKey used for translation; label used as React key
 const COMPARISON_ROWS = [
-  { label: 'Business Entity Formation', independent: true, covered: true, subItems: ['Name Check Service', 'Business Filing Service'], info: 'Registering your business with the state.' },
-  { label: 'Employer Identification Number (EIN)', independent: true, covered: true, info: 'Registration with the IRS for your unique business identifier, used to file your tax returns.' },
-  { label: 'Operating Agreement', independent: true, covered: true, info: "Legal document outlining your business' operations and rules of governance." },
-  { label: 'Business Tax Preparation', independent: true, covered: true, info: "Preparation and filing of your business' income tax return." },
-  { label: 'Monthly Ai Bookkeeping', independent: true, covered: true, info: 'Access to your Ai bookkeeping software — generating your Profit and Loss Statements and categorizing your expenses.', subItems: ['Ai-powered income & expense categorization', 'Auto-generated P&L, Balance Sheets & Ledgers', 'Ai receipt scanning'] },
-  { label: 'Quarterly Estimated Tax Compliance', independent: true, covered: true, info: 'Calculations on a quarterly basis on any potential tax liability.' },
-  { label: '1099 Issuance for Sub-Contractors', independent: true, covered: true, info: 'Unlimited access to file 1099s for contractors that your business pays.' },
-  { label: 'Expert Access: Ai, Webinar', independent: true, covered: true, info: 'Access to tailored business webinars and Ai tools.' },
-  { label: 'Personal Tax Preparation', independent: false, covered: true, info: 'Preparation and filing of your personal income tax return.' },
-  { label: 'CPA Review of Taxes', independent: false, covered: true, info: 'All your returns reviewed and signed-off by a licensed CPA.' },
-  { label: 'Live Expert Access: Hotline', independent: false, covered: true, info: 'Unlimited 30 minute consultations with an accountant regarding your tax compliance.' },
-  { label: 'Payroll Setup for Self or Future Employees', independent: false, covered: true, info: 'Registration with the state to hire employees in the future, whenever you need it.' },
+  { tKey: 'cmp.entityFormation', label: 'Business Entity Formation', independent: true, covered: true, subItems: ['Name Check Service', 'Business Filing Service'], info: 'Registering your business with the state.' },
+  { tKey: 'cmp.ein', label: 'Employer Identification Number (EIN)', independent: true, covered: true, info: 'Registration with the IRS for your unique business identifier, used to file your tax returns.' },
+  { tKey: 'cmp.operatingAgreement', label: 'Operating Agreement', independent: true, covered: true, info: "Legal document outlining your business' operations and rules of governance." },
+  { tKey: 'cmp.bizTaxPrep', label: 'Business Tax Preparation', independent: true, covered: true, info: "Preparation and filing of your business' income tax return." },
+  { tKey: 'cmp.aiBookkeeping', label: 'Monthly Ai Bookkeeping', independent: true, covered: true, info: 'Access to your Ai bookkeeping software — generating your Profit and Loss Statements and categorizing your expenses.', subItems: ['Ai-powered income & expense categorization', 'Auto-generated P&L, Balance Sheets & Ledgers', 'Ai receipt scanning'] },
+  { tKey: 'cmp.quarterlyTax', label: 'Quarterly Estimated Tax Compliance', independent: true, covered: true, info: 'Calculations on a quarterly basis on any potential tax liability.' },
+  { tKey: 'cmp.1099', label: '1099 Issuance for Sub-Contractors', independent: true, covered: true, info: 'Unlimited access to file 1099s for contractors that your business pays.' },
+  { tKey: 'cmp.expertAccess', label: 'Expert Access: Ai, Webinar', independent: true, covered: true, info: 'Access to tailored business webinars and Ai tools.' },
+  { tKey: 'cmp.personalTax', label: 'Personal Tax Preparation', independent: false, covered: true, info: 'Preparation and filing of your personal income tax return.' },
+  { tKey: 'cmp.cpaReview', label: 'CPA Review of Taxes', independent: false, covered: true, info: 'All your returns reviewed and signed-off by a licensed CPA.' },
+  { tKey: 'cmp.liveExpert', label: 'Live Expert Access: Hotline', independent: false, covered: true, info: 'Unlimited 30 minute consultations with an accountant regarding your tax compliance.' },
+  { tKey: 'cmp.payroll', label: 'Payroll Setup for Self or Future Employees', independent: false, covered: true, info: 'Registration with the state to hire employees in the future, whenever you need it.' },
 ]
 
 const STATE_TAX_FILINGS = {
@@ -68,37 +56,51 @@ const STATE_FILING_FEES = {
   'Wyoming': 103,
 }
 
+const INDUSTRY_T_KEYS = {
+  'Construction': 'ind.Construction', 'Consulting / Freelance': 'ind.Consulting',
+  'E-Commerce / Retail': 'ind.ECommerce', 'Food & Beverage': 'ind.Food',
+  'Real Estate': 'ind.RealEstate', 'Rideshare / Delivery': 'ind.Rideshare',
+  'Technology': 'ind.Technology', 'Trucking': 'ind.Trucking', 'Other': 'ind.Other',
+}
+
 export default function PackageStep({ formData, onChange, taxSavingsEstimate, deductionSavingsEstimate }) {
   const { t } = useLanguage()
   const [showComparison, setShowComparison] = useState(false)
+
   const industry = formData.purpose && formData.purpose !== 'Other' ? formData.purpose : ''
   const filingFee = STATE_FILING_FEES[formData.formationState] || null
-  const industryLabel = industry ? ` ${industry}` : ''
   const stateTaxFiling = STATE_TAX_FILINGS[formData.formationState] || null
-
   const isExistingBusiness = formData.hasEntity === 'yes'
 
-  // Build dynamic plan features for Independent Operator
+  // Translated labels for plan features (filtering still uses English keys)
+  const FEATURE_LABELS = {
+    'File Your Tax Returns': t('planf.fileTaxes'),
+    'Manage Your Accounting': t('planf.manageAccounting'),
+    'Achieve Tax Savings': t('planf.taxSavings'),
+    'Register Your Business': t('planf.registerBiz'),
+    'Everything in the Independent Operator Plan': t('planf.everythingIndep'),
+    'Access to On-Demand Tax Expert': t('planf.onDemandExpert'),
+    'CPA Review of Taxes': t('planf.cpaReview'),
+    'Business Tax Optimization': t('planf.taxOptimization'),
+  }
+
+  // Translated industry for plan name
+  const translatedIndustry = industry && INDUSTRY_T_KEYS[industry] ? t(INDUSTRY_T_KEYS[industry]) : industry
+
+  // Build dynamic plan features (filtering by English key, display translated)
   const independentFeatures = [
     ...PLANS[0].features.filter((f) => isExistingBusiness ? f !== 'Register Your Business' : true),
     ...(stateTaxFiling ? [stateTaxFiling] : []),
   ]
-
-  // Covered includes everything in Independent, plus extra for existing businesses
   const coveredFeatures = isExistingBusiness
     ? [...PLANS[1].features, 'Business Tax Optimization']
     : PLANS[1].features
 
-  // Build dynamic comparison rows - insert state tax filing just before covered-only items
+  // Build comparison rows with optional state tax filing row
   const comparisonRows = stateTaxFiling
     ? [
         ...COMPARISON_ROWS.filter((r) => r.independent),
-        {
-          label: stateTaxFiling,
-          independent: true,
-          covered: true,
-          info: 'This is a legally required filing in your state. We will file this along with your business tax return.',
-        },
+        { tKey: null, label: stateTaxFiling, independent: true, covered: true, info: 'This is a legally required filing in your state. We will file this along with your business tax return.' },
         ...COMPARISON_ROWS.filter((r) => !r.independent),
       ]
     : COMPARISON_ROWS
@@ -110,7 +112,9 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
       <div className="grid gap-4 lg:grid-cols-2">
         {PLANS.map((plan) => {
           const selected = formData.selectedPackage === plan.id
-          const planName = `${plan.prefix}${industryLabel} Plan`
+          const planPrefix = t(`plan.${plan.id}`)
+          const planName = `${planPrefix}${translatedIndustry ? ` ${translatedIndustry}` : ''} Plan`
+          const features = plan.id === 'independent' ? independentFeatures : coveredFeatures
           return (
             <button
               key={plan.id}
@@ -138,7 +142,6 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
                 </div>
                 <p className="text-xs text-slate-400 mt-0.5">{t('package.annualNote', { price: plan.annualPrice })}</p>
 
-                {/* Savings badge — inline to avoid overlap */}
                 {plan.id === 'independent' && deductionSavingsEstimate > 0 && (
                   <span className="inline-block mt-2 bg-green-50 border border-green-200 text-green-700 text-xs font-bold px-2 py-1 rounded-lg">
                     {t('package.savingsBadge', { amount: deductionSavingsEstimate.toLocaleString() })}
@@ -152,21 +155,18 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
               </div>
 
               <ul className="space-y-1.5 flex-1">
-                {(plan.id === 'independent' ? independentFeatures : coveredFeatures).map((feature) => (
+                {features.map((feature) => (
                   <li key={feature} className="flex items-start gap-2 text-sm text-slate-600">
                     <svg className="w-4 h-4 text-blue-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                     </svg>
-                    {feature}
+                    {FEATURE_LABELS[feature] || feature}
                   </li>
                 ))}
               </ul>
 
               <div className={`mt-4 py-2 rounded-lg text-center text-sm font-semibold transition-colors
-                ${selected
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-100 text-slate-600'
-                }`}
+                ${selected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'}`}
               >
                 {selected ? t('package.selected') : t('package.selectPlan')}
               </div>
@@ -219,7 +219,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
                 <tr key={row.label} className={i % 2 === 0 ? 'bg-white' : 'bg-slate-50'}>
                   <td className="px-4 py-2.5 text-slate-600">
                     <div className="flex items-start gap-1.5">
-                      <span>{row.label}</span>
+                      <span>{row.tKey ? t(row.tKey) : row.label}</span>
                       {row.info && (
                         <span className="relative group flex-shrink-0 mt-0.5 cursor-help">
                           <svg className="w-4 h-4 text-slate-400 group-hover:text-blue-600 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

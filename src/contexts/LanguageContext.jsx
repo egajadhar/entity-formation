@@ -344,6 +344,53 @@ const strings = {
     'agent.statePH': 'State',
     'agent.zipPH': 'ZIP Code',
     'agent.confirmBtn': 'Confirm Registered Agent',
+
+    // Industries
+    'ind.Construction': 'Construction',
+    'ind.Consulting': 'Consulting / Freelance',
+    'ind.ECommerce': 'E-Commerce / Retail',
+    'ind.Food': 'Food & Beverage',
+    'ind.RealEstate': 'Real Estate',
+    'ind.Rideshare': 'Rideshare / Delivery',
+    'ind.Technology': 'Technology',
+    'ind.Trucking': 'Trucking',
+    'ind.Other': 'Other',
+
+    // Entity types
+    'et.llcName': 'LLC',
+    'et.llcFull': 'Limited Liability Company',
+    'et.llcDesc': 'Flexible structure with personal liability protection. Best for small businesses and startups.',
+    'et.corpName': 'Corporation',
+    'et.corpFull': 'C Corporation',
+    'et.corpDesc': 'Separate legal entity ideal for raising capital. Allows issuing stock to investors.',
+
+    // Plan names
+    'plan.independent': 'Independent Operator',
+    'plan.covered': 'Covered',
+
+    // Plan features
+    'planf.fileTaxes': 'File Your Tax Returns',
+    'planf.manageAccounting': 'Manage Your Accounting',
+    'planf.taxSavings': 'Achieve Tax Savings',
+    'planf.registerBiz': 'Register Your Business',
+    'planf.everythingIndep': 'Everything in the Independent Operator Plan',
+    'planf.onDemandExpert': 'Access to On-Demand Tax Expert',
+    'planf.cpaReview': 'CPA Review of Taxes',
+    'planf.taxOptimization': 'Business Tax Optimization',
+
+    // Comparison rows
+    'cmp.entityFormation': 'Business Entity Formation',
+    'cmp.ein': 'Employer Identification Number (EIN)',
+    'cmp.operatingAgreement': 'Operating Agreement',
+    'cmp.bizTaxPrep': 'Business Tax Preparation',
+    'cmp.aiBookkeeping': 'Monthly Ai Bookkeeping',
+    'cmp.quarterlyTax': 'Quarterly Estimated Tax Compliance',
+    'cmp.1099': '1099 Issuance for Sub-Contractors',
+    'cmp.expertAccess': 'Expert Access: Ai, Webinar',
+    'cmp.personalTax': 'Personal Tax Preparation',
+    'cmp.cpaReview': 'CPA Review of Taxes',
+    'cmp.liveExpert': 'Live Expert Access: Hotline',
+    'cmp.payroll': 'Payroll Setup for Self or Future Employees',
   },
 
   es: {
@@ -689,6 +736,53 @@ const strings = {
     'agent.statePH': 'Estado',
     'agent.zipPH': 'Código Postal',
     'agent.confirmBtn': 'Confirmar Agente Registrado',
+
+    // Industries
+    'ind.Construction': 'Construcción',
+    'ind.Consulting': 'Consultoría / Freelance',
+    'ind.ECommerce': 'Comercio Electrónico / Minorista',
+    'ind.Food': 'Alimentos y Bebidas',
+    'ind.RealEstate': 'Bienes Raíces',
+    'ind.Rideshare': 'Transporte / Entrega',
+    'ind.Technology': 'Tecnología',
+    'ind.Trucking': 'Transporte de Carga',
+    'ind.Other': 'Otro',
+
+    // Entity types
+    'et.llcName': 'LLC',
+    'et.llcFull': 'Sociedad de Responsabilidad Limitada',
+    'et.llcDesc': 'Estructura flexible con protección de responsabilidad personal. Ideal para pequeñas empresas y startups.',
+    'et.corpName': 'Corporación',
+    'et.corpFull': 'Corporación C',
+    'et.corpDesc': 'Entidad legal separada ideal para obtener capital. Permite emitir acciones a inversores.',
+
+    // Plan names
+    'plan.independent': 'Operador Independiente',
+    'plan.covered': 'Cubierto',
+
+    // Plan features
+    'planf.fileTaxes': 'Presentar Tus Declaraciones de Impuestos',
+    'planf.manageAccounting': 'Gestionar Tu Contabilidad',
+    'planf.taxSavings': 'Lograr Ahorros Fiscales',
+    'planf.registerBiz': 'Registrar Tu Negocio',
+    'planf.everythingIndep': 'Todo en el Plan de Operador Independiente',
+    'planf.onDemandExpert': 'Acceso a Experto Fiscal bajo Demanda',
+    'planf.cpaReview': 'Revisión de Impuestos por CPA',
+    'planf.taxOptimization': 'Optimización Fiscal Empresarial',
+
+    // Comparison rows
+    'cmp.entityFormation': 'Formación de Entidad Comercial',
+    'cmp.ein': 'Número de Identificación del Empleador (EIN)',
+    'cmp.operatingAgreement': 'Acuerdo Operativo',
+    'cmp.bizTaxPrep': 'Preparación de Impuestos Empresariales',
+    'cmp.aiBookkeeping': 'Contabilidad Mensual con IA',
+    'cmp.quarterlyTax': 'Cumplimiento Fiscal Trimestral Estimado',
+    'cmp.1099': 'Emisión de 1099 para Subcontratistas',
+    'cmp.expertAccess': 'Acceso a Expertos: IA, Seminarios Web',
+    'cmp.personalTax': 'Preparación de Impuestos Personales',
+    'cmp.cpaReview': 'Revisión de Impuestos por CPA',
+    'cmp.liveExpert': 'Acceso en Vivo a Expertos: Línea Directa',
+    'cmp.payroll': 'Configuración de Nómina para Ti o Futuros Empleados',
   },
 }
 

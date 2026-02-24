@@ -1,13 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 
-const REVENUE_OPTIONS = [
-  { id: 'under-25k', label: 'Under $25k', topValue: 25000 },
-  { id: '25k-50k', label: '$25k–$50k', topValue: 50000 },
-  { id: '50k-100k', label: '$50k–$100k', topValue: 100000 },
-  { id: '100k-250k', label: '$100k–$250k', topValue: 250000 },
-  { id: '250k-plus', label: '$250k+', topValue: 250000 },
-]
 
 const TEAM_OPTIONS = [
   { id: 'solo', label: 'Just me' },
@@ -117,6 +110,14 @@ function FireworkBurst({ left, top, delay = 0 }) {
 export default function TaxSavingsStep({ onBack, onContinue, onSavingsCalculated, variant, prefilledRevenue, isOperating }) {
   const { t } = useLanguage()
   const isEstimate = variant === 'estimate'
+
+  const REVENUE_OPTIONS = [
+    { id: 'under-25k', label: t('hustle.rev1'), topValue: 25000 },
+    { id: '25k-50k', label: t('hustle.rev2'), topValue: 50000 },
+    { id: '50k-100k', label: t('hustle.rev3'), topValue: 100000 },
+    { id: '100k-250k', label: t('hustle.rev4'), topValue: 250000 },
+    { id: '250k-plus', label: t('hustle.rev5'), topValue: 250000 },
+  ]
   const [revenue, setRevenue] = useState(prefilledRevenue || '')
   const [teamSize, setTeamSize] = useState('solo')
   const [taxRate, setTaxRate] = useState(25)

@@ -31,6 +31,12 @@ const icons = {
 
 export default function EntityTypeStep({ formData, onChange, taxSavingsEstimate }) {
   const { t } = useLanguage()
+
+  const ENTITY_T = {
+    llc: { name: t('et.llcName'), fullName: t('et.llcFull'), description: t('et.llcDesc') },
+    corporation: { name: t('et.corpName'), fullName: t('et.corpFull'), description: t('et.corpDesc') },
+  }
+
   return (
     <div>
       <h2 className="text-2xl font-bold text-slate-900 mb-1">{t('entityType.title')}</h2>
@@ -40,6 +46,7 @@ export default function EntityTypeStep({ formData, onChange, taxSavingsEstimate 
       <div className="grid gap-3 mb-8">
         {ENTITY_TYPES.map((entity) => {
           const selected = formData.entityType === entity.id
+          const eT = ENTITY_T[entity.id] || entity
           return (
             <button
               key={entity.id}
@@ -55,8 +62,8 @@ export default function EntityTypeStep({ formData, onChange, taxSavingsEstimate 
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-semibold text-slate-900">{entity.name}</span>
-                  <span className="text-xs text-slate-400">{entity.fullName}</span>
+                  <span className="font-semibold text-slate-900">{eT.name}</span>
+                  <span className="text-xs text-slate-400">{eT.fullName}</span>
                   {entity.id === 'llc' && (
                     <>
                       <span className="bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-full">
@@ -70,7 +77,7 @@ export default function EntityTypeStep({ formData, onChange, taxSavingsEstimate 
                     </>
                   )}
                 </div>
-                <p className="text-sm text-slate-500 mt-0.5">{entity.description}</p>
+                <p className="text-sm text-slate-500 mt-0.5">{eT.description}</p>
               </div>
               <div className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full border-2 flex items-center justify-center
                 ${selected ? 'border-blue-600' : 'border-slate-300'}`}
