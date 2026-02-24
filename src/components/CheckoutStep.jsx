@@ -7,6 +7,17 @@ const PLANS = [
   { id: 'covered', biannualPrice: 299, annualPrice: 598 },
 ]
 
+const PLAN_SUMMARY_FEATURES = {
+  independent: {
+    new:      'Tax Return Filings, Accounting, Achieve Tax Savings, Business Registration with Government',
+    existing: 'Tax Return Filings, Accounting, Achieve Tax Savings',
+  },
+  covered: {
+    new:      'Tax Return Filings, Accounting, Achieve Tax Savings, Business Registration with Government, On-Demand Tax Expert, CPA Review of Taxes',
+    existing: 'Tax Return Filings, Accounting, Achieve Tax Savings, On-Demand Tax Expert, CPA Review of Taxes, Business Tax Optimization',
+  },
+}
+
 const INDUSTRY_T_KEYS = {
   'Construction': 'ind.Construction', 'Consulting / Freelance': 'ind.Consulting',
   'E-Commerce / Retail': 'ind.ECommerce', 'Food & Beverage': 'ind.Food',
@@ -82,6 +93,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
   const translatedIndustry = industry && INDUSTRY_T_KEYS[industry] ? t(INDUSTRY_T_KEYS[industry]) : industry
   const planPrefix = plan ? t(`plan.${plan.id}`) : ''
   const planName = plan ? `${planPrefix}${translatedIndustry ? ` ${translatedIndustry}` : ''} Plan` : '—'
+  const planFeatureList = plan ? PLAN_SUMMARY_FEATURES[plan.id]?.[isExistingBusiness ? 'existing' : 'new'] : null
   const totalDue = isExistingBusiness
     ? (plan?.biannualPrice || 0)
     : filingFee + (plan?.biannualPrice || 0)
@@ -162,7 +174,12 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
           {plan && (
             <div className="flex justify-between items-start">
               <div>
-                <p className="text-sm font-medium text-slate-900">{planName}</p>
+                <p className="text-sm font-medium text-slate-900">
+                  {planName}
+                  {planFeatureList && (
+                    <span className="font-normal text-slate-500"> - {planFeatureList}</span>
+                  )}
+                </p>
                 <p className="text-xs text-slate-400">
                   {isExistingBusiness
                     ? t('checkout.firstPayment', { annual: plan.annualPrice })
