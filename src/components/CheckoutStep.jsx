@@ -82,7 +82,9 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
   const translatedIndustry = industry && INDUSTRY_T_KEYS[industry] ? t(INDUSTRY_T_KEYS[industry]) : industry
   const planPrefix = plan ? t(`plan.${plan.id}`) : ''
   const planName = plan ? `${planPrefix}${translatedIndustry ? ` ${translatedIndustry}` : ''} Plan` : '—'
-  const totalDue = isExistingBusiness ? (plan?.biannualPrice || 0) : filingFee
+  const totalDue = isExistingBusiness
+    ? (plan?.biannualPrice || 0)
+    : filingFee + (plan?.biannualPrice || 0)
 
   // Review modal derived values
   const entity = ENTITY_TYPES.find((e) => e.id === formData.entityType)
@@ -157,16 +159,6 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
           <h3 className="text-sm font-semibold text-slate-700">{t('checkout.orderSummary')}</h3>
         </div>
         <div className="px-5 py-4 space-y-3">
-          {filingFee > 0 && (
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-sm font-medium text-slate-900">{t('checkout.stateFee', { state: formData.formationState })}</p>
-                <p className="text-xs text-slate-400">{t('checkout.dueToday')}</p>
-              </div>
-              <span className="text-sm font-semibold text-slate-900">${filingFee}</span>
-            </div>
-          )}
-
           {plan && (
             <div className="flex justify-between items-start">
               <div>
@@ -174,12 +166,22 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
                 <p className="text-xs text-slate-400">
                   {isExistingBusiness
                     ? t('checkout.firstPayment', { annual: plan.annualPrice })
-                    : t('checkout.billedAfter', { semi: plan.biannualPrice, annual: plan.annualPrice })}
+                    : t('checkout.billedAfter')}
                 </p>
               </div>
-              <span className={`text-sm font-semibold ${isExistingBusiness ? 'text-slate-900' : 'text-slate-400'}`}>
-                {isExistingBusiness ? `$${plan.biannualPrice}` : '$0.00'}
+              <span className="text-sm font-semibold text-slate-900">
+                ${plan.biannualPrice}
               </span>
+            </div>
+          )}
+
+          {filingFee > 0 && (
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="text-sm font-medium text-slate-900">{t('checkout.stateFee', { state: formData.formationState })}</p>
+                <p className="text-xs text-slate-400">{t('checkout.dueToday')}</p>
+              </div>
+              <span className="text-sm font-semibold text-slate-900">${filingFee}</span>
             </div>
           )}
 
@@ -325,7 +327,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
 
               <ReviewSection title={t('checkout.modal.selectedPlan')} onEdit={() => handleEditAndGo(8)}>
                 <ReviewRow label={t('checkout.modal.plan')} value={planName} />
-                {plan && <ReviewRow label={t('checkout.modal.planCost')} value={`$${plan.biannualPrice} x 2 payments ($${plan.annualPrice}/yr) — billed after filing`} />}
+                {plan && <ReviewRow label={t('checkout.modal.planCost')} value={`$${plan.biannualPrice} now + $${plan.biannualPrice} after formation ($${plan.annualPrice}/yr)`} />}
                 <ReviewRow label={t('checkout.modal.stateFee')} value={filingFee ? `$${filingFee} (${formData.formationState}) — due now` : '—'} />
               </ReviewSection>
 
