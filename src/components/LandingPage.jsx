@@ -364,13 +364,13 @@ function Pricing({ onStart }) {
   const [annual, setAnnual] = useState(false);
   const plans = [
     {
-      name: "Independent Operator", badge: "Best Value", price6: 198, priceYr: 398, tagline: "Everything a 1099 contractor needs",
-      features: ["Business entity setup for tax savings", "Accountant consultation before formation", "Monthly AI-powered bookkeeping", "Business tax preparation & filing", "Quarterly estimated tax compliance", "1099 issuing for subcontractors", "Expert access: AI + Webinars"],
+      name: "Independent Operator", badge: "Best Value", price6: 199, priceYr: 398, tagline: "Everything a 1099 contractor needs",
+      features: ["File Your Tax Returns", "Manage Your Accounting", "Achieve Tax Savings", "Register Your Business"],
       cta: "Get Started", highlight: false,
     },
     {
-      name: "Premium Full Coverage", badge: "Full Coverage", price6: 299.50, priceYr: 599, tagline: "Complete peace of mind with live experts",
-      features: ["Everything in Independent, plus:", "Live Expert Hotline — real humans", "CPA review of all tax filings", "Personal tax preparation included", "Payroll setup for you or employees", "Priority support"],
+      name: "Premium Full Coverage", badge: "Full Coverage", price6: 299, priceYr: 598, tagline: "Complete peace of mind with live experts",
+      features: ["Everything in the Independent Operator Plan", "Access to On-Demand Tax Expert", "CPA Review of Taxes"],
       cta: "Get Full Coverage", highlight: true,
     },
   ];
