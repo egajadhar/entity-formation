@@ -366,7 +366,7 @@ function Pricing({ onStart }) {
     {
       name: "Basic Plan", badge: "Best Value", priceMonthly: 19, priceYr: 228, tagline: "Essential tools for every 1099 contractor",
       features: [
-        "Ai Business Tax Return",
+        "Free Ai Business Tax Return",
         "Ai Bookkeeping",
         "Complimentary Business Tax Extension",
         "Unlimited 1099 Issuing and Filing",

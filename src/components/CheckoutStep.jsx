@@ -7,15 +7,9 @@ const PLANS = [
   { id: 'covered', monthlyPrice: 29, annualPrice: 348 },
 ]
 
-const PLAN_SUMMARY_FEATURES = {
-  independent: {
-    new:      'Business Formation, EIN, Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing',
-    existing: 'Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing',
-  },
-  covered: {
-    new:      'Business Formation, EIN, Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing, Ai Personal Tax Preparation, Quarterly Estimated Tax Compliance, CPA Review of Taxes, Payroll Set Up, On-Demand Tax Expert',
-    existing: 'Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing, Business Tax Optimization (S-Corp), Ai Personal Tax Preparation, Quarterly Estimated Tax Compliance, CPA Review of Taxes, Payroll Set Up, On-Demand Tax Expert',
-  },
+const PLAN_FEATURE_KEYS = {
+  independent: { new: 'checkout.features.basic.new', existing: 'checkout.features.basic.existing' },
+  covered:     { new: 'checkout.features.pro.new',   existing: 'checkout.features.pro.existing' },
 }
 
 const INDUSTRY_T_KEYS = {
@@ -37,6 +31,20 @@ const STATE_FILING_FEES = {
   'South Dakota': 153, 'Tennessee': 307, 'Texas': 300, 'Utah': 59, 'Vermont': 155,
   'Virginia': 100, 'Washington': 200, 'Washington D.C.': 99, 'West Virginia': 130, 'Wisconsin': 130,
   'Wyoming': 103,
+}
+
+const CORP_FILING_FEES = {
+  'Alabama': 183, 'Alaska': 250, 'Arizona': 60, 'Arkansas': 45, 'California': 115,
+  'Colorado': 50, 'Connecticut': 315, 'Delaware': 89, 'Florida': 70, 'Georgia': 100,
+  'Hawaii': 51, 'Idaho': 100, 'Illinois': 180, 'Indiana': 91, 'Iowa': 50,
+  'Kansas': 90, 'Kentucky': 100, 'Louisiana': 170, 'Maine': 145, 'Maryland': 145,
+  'Massachusetts': 290, 'Michigan': 50, 'Minnesota': 155, 'Mississippi': 52, 'Missouri': 60,
+  'Montana': 70, 'Nebraska': 67, 'Nevada': 75, 'New Hampshire': 100, 'New Jersey': 130,
+  'New Mexico': 100, 'New York': 125, 'North Carolina': 127, 'North Dakota': 100, 'Ohio': 99,
+  'Oklahoma': 50, 'Oregon': 100, 'Pennsylvania': 125, 'Rhode Island': 238, 'South Carolina': 235,
+  'South Dakota': 150, 'Tennessee': 105, 'Texas': 300, 'Utah': 76, 'Vermont': 125,
+  'Virginia': 77, 'Washington': 180, 'Washington D.C.': 220, 'West Virginia': 100, 'Wisconsin': 100,
+  'Wyoming': 102,
 }
 
 function ReviewSection({ title, onEdit, children }) {
@@ -87,13 +95,16 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
   const [billingZip, setBillingZip] = useState(formData.address.zip)
 
   const isExistingBusiness = formData.hasEntity === 'yes'
-  const filingFee = isExistingBusiness ? 0 : (STATE_FILING_FEES[formData.formationState] || 0)
+  const isCorp = formData.entityType === 'corporation' || formData.entityType === 's-corp'
+  const feeTable = isCorp ? CORP_FILING_FEES : STATE_FILING_FEES
+  const filingFee = isExistingBusiness ? 0 : (feeTable[formData.formationState] || 0)
   const plan = PLANS.find((p) => p.id === formData.selectedPackage)
   const industry = formData.purpose && formData.purpose !== 'Other' ? formData.purpose : ''
   const translatedIndustry = industry && INDUSTRY_T_KEYS[industry] ? t(INDUSTRY_T_KEYS[industry]) : industry
   const planPrefix = plan ? t(`plan.${plan.id}`) : ''
   const planName = plan ? `${planPrefix}${translatedIndustry ? ` ${translatedIndustry}` : ''} Plan` : '—'
-  const planFeatureList = plan ? PLAN_SUMMARY_FEATURES[plan.id]?.[isExistingBusiness ? 'existing' : 'new'] : null
+  const planFeatureKey = plan ? PLAN_FEATURE_KEYS[plan.id]?.[isExistingBusiness ? 'existing' : 'new'] : null
+  const planFeatureList = planFeatureKey ? t(planFeatureKey) : null
   const totalDue = isExistingBusiness
     ? (plan?.annualPrice || 0)
     : filingFee + (plan?.annualPrice || 0)

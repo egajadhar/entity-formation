@@ -268,6 +268,10 @@ const strings = {
     'checkout.modal.email': 'Email',
     'checkout.modal.ownership': 'Ownership',
     'checkout.modal.selectedPlan': 'Selected Plan',
+    'checkout.features.basic.new': 'Business Formation, EIN, Free Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing',
+    'checkout.features.basic.existing': 'Free Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing',
+    'checkout.features.pro.new': 'Business Formation, EIN, Free Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing, Ai Personal Tax Preparation, Quarterly Estimated Tax Compliance, CPA Review of Taxes, Payroll Set Up, On-Demand Tax Expert',
+    'checkout.features.pro.existing': 'Free Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing, Business Tax Optimization (S-Corp), Ai Personal Tax Preparation, Quarterly Estimated Tax Compliance, CPA Review of Taxes, Payroll Set Up, On-Demand Tax Expert',
 
     // TaxSavingsStep
     'tax.titleResults': 'Your estimated tax savings',
@@ -324,7 +328,7 @@ const strings = {
     'agent.sub': 'Every business needs a registered agent to receive legal documents on its behalf.',
     'agent.useOursTitle': 'Use Our Service',
     'agent.useOursPrice': '$99/yr',
-    'agent.useOursDesc': "We'll serve as your registered agent for $99 a year, billed annually after formation.",
+    'agent.useOursDesc': "We'll serve as your registered agent for $99 a year.",
     'agent.recommended': 'Recommended',
     'agent.ownTitle': "I'll Provide My Own",
     'agent.ownDesc': "Designate your own registered agent. Must have a physical address in the state of formation.",
@@ -371,7 +375,7 @@ const strings = {
     // Plan features
     'planf.bizFormation': 'Business Formation',
     'planf.ein': 'Employer Identification Number (EIN)',
-    'planf.aiBizTax': 'Ai Business Tax Return',
+    'planf.aiBizTax': 'Free Ai Business Tax Return',
     'planf.aiBookkeeping': 'Ai Bookkeeping',
     'planf.taxExtension': 'Complimentary Business Tax Extension',
     'planf.unlimited1099': 'Unlimited 1099 Issuing and Filing',
@@ -386,7 +390,7 @@ const strings = {
     // Comparison rows
     'cmp.bizFormation': 'Business Formation',
     'cmp.ein': 'Employer Identification Number (EIN)',
-    'cmp.aiBizTax': 'Ai Business Tax Return',
+    'cmp.aiBizTax': 'Free Ai Business Tax Return',
     'cmp.aiBookkeeping': 'Ai Bookkeeping',
     'cmp.taxExtension': 'Complimentary Business Tax Extension',
     'cmp.unlimited1099': 'Unlimited 1099 Issuing and Filing',
@@ -665,6 +669,10 @@ const strings = {
     'checkout.modal.email': 'Correo',
     'checkout.modal.ownership': 'Participación',
     'checkout.modal.selectedPlan': 'Plan Seleccionado',
+    'checkout.features.basic.new': 'Formación de Empresa, EIN, Declaración de Impuestos Empresariales con IA Gratis, Contabilidad con IA, Extensión Fiscal Empresarial Gratuita, Emisión y Presentación Ilimitada de 1099',
+    'checkout.features.basic.existing': 'Declaración de Impuestos Empresariales con IA Gratis, Contabilidad con IA, Extensión Fiscal Empresarial Gratuita, Emisión y Presentación Ilimitada de 1099',
+    'checkout.features.pro.new': 'Formación de Empresa, EIN, Declaración de Impuestos Empresariales con IA Gratis, Contabilidad con IA, Extensión Fiscal Empresarial Gratuita, Emisión y Presentación Ilimitada de 1099, Preparación de Impuestos Personales con IA, Cumplimiento Fiscal Trimestral Estimado, Revisión de Impuestos por CPA, Configuración de Nómina, Experto Fiscal bajo Demanda',
+    'checkout.features.pro.existing': 'Declaración de Impuestos Empresariales con IA Gratis, Contabilidad con IA, Extensión Fiscal Empresarial Gratuita, Emisión y Presentación Ilimitada de 1099, Optimización Fiscal Empresarial (S-Corp), Preparación de Impuestos Personales con IA, Cumplimiento Fiscal Trimestral Estimado, Revisión de Impuestos por CPA, Configuración de Nómina, Experto Fiscal bajo Demanda',
 
     // TaxSavingsStep
     'tax.titleResults': 'Tu ahorro fiscal estimado',
@@ -721,7 +729,7 @@ const strings = {
     'agent.sub': 'Todo negocio necesita un agente registrado para recibir documentos legales en su nombre.',
     'agent.useOursTitle': 'Usar Nuestro Servicio',
     'agent.useOursPrice': '$99/año',
-    'agent.useOursDesc': 'Serviremos como tu agente registrado por $99 al año, facturado anualmente después de la formación.',
+    'agent.useOursDesc': 'Serviremos como tu agente registrado por $99 al año.',
     'agent.recommended': 'Recomendado',
     'agent.ownTitle': 'Proporcionaré el Mío',
     'agent.ownDesc': 'Designa tu propio agente registrado. Debe tener una dirección física en el estado de formación.',
@@ -768,7 +776,7 @@ const strings = {
     // Plan features
     'planf.bizFormation': 'Formación de Empresa',
     'planf.ein': 'Número de Identificación del Empleador (EIN)',
-    'planf.aiBizTax': 'Declaración de Impuestos Empresariales con IA',
+    'planf.aiBizTax': 'Declaración de Impuestos Empresariales con IA Gratis',
     'planf.aiBookkeeping': 'Contabilidad con IA',
     'planf.taxExtension': 'Extensión Fiscal Empresarial Gratuita',
     'planf.unlimited1099': 'Emisión y Presentación Ilimitada de 1099',
@@ -783,7 +791,7 @@ const strings = {
     // Comparison rows
     'cmp.bizFormation': 'Formación de Empresa',
     'cmp.ein': 'Número de Identificación del Empleador (EIN)',
-    'cmp.aiBizTax': 'Declaración de Impuestos Empresariales con IA',
+    'cmp.aiBizTax': 'Declaración de Impuestos Empresariales con IA Gratis',
     'cmp.aiBookkeeping': 'Contabilidad con IA',
     'cmp.taxExtension': 'Extensión Fiscal Empresarial Gratuita',
     'cmp.unlimited1099': 'Emisión y Presentación Ilimitada de 1099',

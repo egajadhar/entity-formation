@@ -19,6 +19,20 @@ const STATE_FILING_FEES = {
   'Wyoming': 103,
 }
 
+const CORP_FILING_FEES = {
+  'Alabama': 183, 'Alaska': 250, 'Arizona': 60, 'Arkansas': 45, 'California': 115,
+  'Colorado': 50, 'Connecticut': 315, 'Delaware': 89, 'Florida': 70, 'Georgia': 100,
+  'Hawaii': 51, 'Idaho': 100, 'Illinois': 180, 'Indiana': 91, 'Iowa': 50,
+  'Kansas': 90, 'Kentucky': 100, 'Louisiana': 170, 'Maine': 145, 'Maryland': 145,
+  'Massachusetts': 290, 'Michigan': 50, 'Minnesota': 155, 'Mississippi': 52, 'Missouri': 60,
+  'Montana': 70, 'Nebraska': 67, 'Nevada': 75, 'New Hampshire': 100, 'New Jersey': 130,
+  'New Mexico': 100, 'New York': 125, 'North Carolina': 127, 'North Dakota': 100, 'Ohio': 99,
+  'Oklahoma': 50, 'Oregon': 100, 'Pennsylvania': 125, 'Rhode Island': 238, 'South Carolina': 235,
+  'South Dakota': 150, 'Tennessee': 105, 'Texas': 300, 'Utah': 76, 'Vermont': 125,
+  'Virginia': 77, 'Washington': 180, 'Washington D.C.': 220, 'West Virginia': 100, 'Wisconsin': 100,
+  'Wyoming': 102,
+}
+
 function Section({ title, onEdit, children }) {
   return (
     <div className="border border-slate-200 rounded-xl overflow-hidden">
@@ -50,7 +64,8 @@ export default function ReviewStep({ formData, onChange, goToStep }) {
   const plan = PLANS.find((p) => p.id === formData.selectedPackage)
   const industry = formData.purpose && formData.purpose !== 'Other' ? formData.purpose : ''
   const planName = plan ? `${plan.prefix}${industry ? ` ${industry}` : ''} Plan` : '—'
-  const filingFee = STATE_FILING_FEES[formData.formationState] || null
+  const isCorp = formData.entityType === 'corporation' || formData.entityType === 's-corp'
+  const filingFee = (isCorp ? CORP_FILING_FEES : STATE_FILING_FEES)[formData.formationState] || null
   const suffix = formData.entityType === 'llc' ? ', LLC' :
     formData.entityType === 'corporation' || formData.entityType === 's-corp' ? ', Inc.' :
     formData.entityType === 'lp' ? ', LP' : ''

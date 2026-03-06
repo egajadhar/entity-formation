@@ -18,7 +18,7 @@ const PLANS = [
 const COMPARISON_ROWS_NEW = [
   { tKey: 'cmp.bizFormation', label: 'Business Formation', basic: true, pro: true, info: 'Registering your business with the state.' },
   { tKey: 'cmp.ein', label: 'Employer Identification Number (EIN)', basic: true, pro: true, info: 'Registration with the IRS for your unique business identifier, used to file your tax returns.' },
-  { tKey: 'cmp.aiBizTax', label: 'Ai Business Tax Return', basic: true, pro: true, info: 'Preparation and filing of your business income tax return.' },
+  { tKey: 'cmp.aiBizTax', label: 'Free Ai Business Tax Return', basic: true, pro: true, info: 'Preparation and filing of your business income tax return.' },
   { tKey: 'cmp.aiBookkeeping', label: 'Ai Bookkeeping', basic: true, pro: true, info: 'AI-powered bookkeeping generating your Profit and Loss Statements and categorizing expenses.' },
   { tKey: 'cmp.taxExtension', label: 'Complimentary Business Tax Extension', basic: true, pro: true, info: 'A complimentary extension filed for your business tax return when needed.' },
   { tKey: 'cmp.unlimited1099', label: 'Unlimited 1099 Issuing and Filing', basic: true, pro: true, info: 'Unlimited access to file 1099s for contractors your business pays.' },
@@ -30,7 +30,7 @@ const COMPARISON_ROWS_NEW = [
 ]
 
 const COMPARISON_ROWS_EXISTING = [
-  { tKey: 'cmp.aiBizTax', label: 'Ai Business Tax Return', basic: true, pro: true, info: 'Preparation and filing of your business income tax return.' },
+  { tKey: 'cmp.aiBizTax', label: 'Free Ai Business Tax Return', basic: true, pro: true, info: 'Preparation and filing of your business income tax return.' },
   { tKey: 'cmp.aiBookkeeping', label: 'Ai Bookkeeping', basic: true, pro: true, info: 'AI-powered bookkeeping generating your Profit and Loss Statements and categorizing expenses.' },
   { tKey: 'cmp.taxExtension', label: 'Complimentary Business Tax Extension', basic: true, pro: true, info: 'A complimentary extension filed for your business tax return when needed.' },
   { tKey: 'cmp.unlimited1099', label: 'Unlimited 1099 Issuing and Filing', basic: true, pro: true, info: 'Unlimited access to file 1099s for contractors your business pays.' },
@@ -69,7 +69,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
   const FEATURE_LABELS = {
     'Business Formation': t('planf.bizFormation'),
     'Employer Identification Number (EIN)': t('planf.ein'),
-    'Ai Business Tax Return': t('planf.aiBizTax'),
+    'Free Ai Business Tax Return': t('planf.aiBizTax'),
     'Ai Bookkeeping': t('planf.aiBookkeeping'),
     'Complimentary Business Tax Extension': t('planf.taxExtension'),
     'Unlimited 1099 Issuing and Filing': t('planf.unlimited1099'),
@@ -86,7 +86,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
 
   const basicFeatures = isExistingBusiness
     ? [
-        'Ai Business Tax Return',
+        'Free Ai Business Tax Return',
         'Ai Bookkeeping',
         'Complimentary Business Tax Extension',
         'Unlimited 1099 Issuing and Filing',
@@ -94,7 +94,7 @@ export default function PackageStep({ formData, onChange, taxSavingsEstimate, de
     : [
         'Business Formation',
         'Employer Identification Number (EIN)',
-        'Ai Business Tax Return',
+        'Free Ai Business Tax Return',
         'Ai Bookkeeping',
         'Complimentary Business Tax Extension',
         'Unlimited 1099 Issuing and Filing',
