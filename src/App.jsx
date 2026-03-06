@@ -680,7 +680,15 @@ function App() {
                 {t('nav.back')}
               </button>
             ) : (
-              <div />
+              <button
+                onClick={() => setShowLanding(true)}
+                className="flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                {t('nav.back')}
+              </button>
             )}
 
             {step < TOTAL_STEPS ? (

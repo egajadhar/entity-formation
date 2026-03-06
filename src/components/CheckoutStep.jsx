@@ -3,18 +3,18 @@ import { US_STATES, ENTITY_TYPES } from '../data/constants'
 import { useLanguage } from '../contexts/LanguageContext'
 
 const PLANS = [
-  { id: 'independent', biannualPrice: 199, annualPrice: 398 },
-  { id: 'covered', biannualPrice: 299, annualPrice: 598 },
+  { id: 'independent', monthlyPrice: 19, annualPrice: 228 },
+  { id: 'covered', monthlyPrice: 29, annualPrice: 348 },
 ]
 
 const PLAN_SUMMARY_FEATURES = {
   independent: {
-    new:      'Tax Return Filings, Accounting, Achieve Tax Savings, Business Registration with Government',
-    existing: 'Tax Return Filings, Accounting, Achieve Tax Savings',
+    new:      'Business Formation, EIN, Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing',
+    existing: 'Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing',
   },
   covered: {
-    new:      'Tax Return Filings, Accounting, Achieve Tax Savings, Business Registration with Government, On-Demand Tax Expert, CPA Review of Taxes',
-    existing: 'Tax Return Filings, Accounting, Achieve Tax Savings, On-Demand Tax Expert, CPA Review of Taxes, Business Tax Optimization',
+    new:      'Business Formation, EIN, Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing, Ai Personal Tax Preparation, Quarterly Estimated Tax Compliance, CPA Review of Taxes, Payroll Set Up, On-Demand Tax Expert',
+    existing: 'Ai Business Tax Return, Ai Bookkeeping, Complimentary Business Tax Extension, Unlimited 1099 Issuing and Filing, Business Tax Optimization (S-Corp), Ai Personal Tax Preparation, Quarterly Estimated Tax Compliance, CPA Review of Taxes, Payroll Set Up, On-Demand Tax Expert',
   },
 }
 
@@ -95,8 +95,8 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
   const planName = plan ? `${planPrefix}${translatedIndustry ? ` ${translatedIndustry}` : ''} Plan` : '—'
   const planFeatureList = plan ? PLAN_SUMMARY_FEATURES[plan.id]?.[isExistingBusiness ? 'existing' : 'new'] : null
   const totalDue = isExistingBusiness
-    ? (plan?.biannualPrice || 0)
-    : filingFee + (plan?.biannualPrice || 0)
+    ? (plan?.annualPrice || 0)
+    : filingFee + (plan?.annualPrice || 0)
 
   // Review modal derived values
   const entity = ENTITY_TYPES.find((e) => e.id === formData.entityType)
@@ -182,12 +182,12 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
                 </p>
                 <p className="text-xs text-slate-400">
                   {isExistingBusiness
-                    ? t('checkout.firstPayment', { annual: plan.annualPrice })
-                    : t('checkout.billedAfter')}
+                    ? t('checkout.firstPayment', { annual: plan.annualPrice, monthly: plan.monthlyPrice })
+                    : t('checkout.billedAfter', { monthly: plan.monthlyPrice })}
                 </p>
               </div>
               <span className="text-sm font-semibold text-slate-900">
-                ${plan.biannualPrice}
+                ${plan.annualPrice}
               </span>
             </div>
           )}
@@ -344,7 +344,7 @@ export default function CheckoutStep({ formData, onChange, goToStep }) {
 
               <ReviewSection title={t('checkout.modal.selectedPlan')} onEdit={() => handleEditAndGo(8)}>
                 <ReviewRow label={t('checkout.modal.plan')} value={planName} />
-                {plan && <ReviewRow label={t('checkout.modal.planCost')} value={`$${plan.biannualPrice} now + $${plan.biannualPrice} after formation ($${plan.annualPrice}/yr)`} />}
+                {plan && <ReviewRow label={t('checkout.modal.planCost')} value={`$${plan.annualPrice}/yr — billed annually`} />}
                 <ReviewRow label={t('checkout.modal.stateFee')} value={filingFee ? `$${filingFee} (${formData.formationState}) — due now` : '—'} />
               </ReviewSection>
 

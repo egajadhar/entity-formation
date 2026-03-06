@@ -65,7 +65,7 @@ function Nav({ onStart }) {
           <a href="#how-it-works" className="hover:text-gray-900 transition-colors">How It Works</a>
           <a href="#comparison" className="hover:text-gray-900 transition-colors">Why Us</a>
           <a href="#pricing" className="hover:text-gray-900 transition-colors">Pricing</a>
-          <a href="tel:+18001234567" className="flex items-center gap-1.5 hover:text-gray-900"><Phone size={14} /> (800) 123-4567</a>
+          <a href="tel:1-800-222-6868" className="flex items-center gap-1.5 hover:text-gray-900"><Phone size={14} /> 1-800-222-6868</a>
         </div>
         <div className="hidden md:block"><Btn size="sm" onClick={onStart}>Get Started Free <ArrowRight size={15} /></Btn></div>
         <button onClick={() => setOpen(!open)} className="md:hidden p-2 text-gray-700"><Menu size={22} /></button>
@@ -364,13 +364,26 @@ function Pricing({ onStart }) {
   const [annual, setAnnual] = useState(false);
   const plans = [
     {
-      name: "Independent Operator", badge: "Best Value", price6: 199, priceYr: 398, tagline: "Everything a 1099 contractor needs",
-      features: ["File Your Tax Returns", "Manage Your Accounting", "Achieve Tax Savings", "Register Your Business"],
+      name: "Basic Plan", badge: "Best Value", priceMonthly: 19, priceYr: 228, tagline: "Essential tools for every 1099 contractor",
+      features: [
+        "Ai Business Tax Return",
+        "Ai Bookkeeping",
+        "Complimentary Business Tax Extension",
+        "Unlimited 1099 Issuing and Filing",
+      ],
       cta: "Get Started", highlight: false,
     },
     {
-      name: "Premium Full Coverage", badge: "Full Coverage", price6: 299, priceYr: 598, tagline: "Complete peace of mind with live experts",
-      features: ["Everything in the Independent Operator Plan", "Access to On-Demand Tax Expert", "CPA Review of Taxes"],
+      name: "Pro Plan", badge: "Full Coverage", priceMonthly: 29, priceYr: 348, tagline: "Complete coverage with expert access",
+      features: [
+        "Everything in Basic",
+        "Business Tax Optimization (S-Corporation)",
+        "Ai Personal Tax Preparation",
+        "Quarterly Estimated Tax Compliance",
+        "CPA Review of Taxes",
+        "Payroll Set Up",
+        "Access to On-Demand Tax Expert",
+      ],
       cta: "Get Full Coverage", highlight: true,
     },
   ];
@@ -382,7 +395,7 @@ function Pricing({ onStart }) {
           <h2 className="text-3xl sm:text-5xl font-extrabold text-gray-950 leading-tight mb-4">Simple, transparent pricing.</h2>
           <p className="text-lg text-gray-500 max-w-lg mx-auto">No hidden fees. No surprise upsells. Just tax savings.</p>
           <div className="inline-flex items-center bg-white border border-gray-200 rounded-full p-1 mt-6">
-            <button onClick={() => setAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${!annual ? "bg-gray-900 text-white shadow" : "text-gray-500"}`}>Every 6 months</button>
+            <button onClick={() => setAnnual(false)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${!annual ? "bg-gray-900 text-white shadow" : "text-gray-500"}`}>Monthly</button>
             <button onClick={() => setAnnual(true)} className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${annual ? "bg-gray-900 text-white shadow" : "text-gray-500"}`}>Annual</button>
           </div>
         </div>
@@ -399,10 +412,11 @@ function Pricing({ onStart }) {
               </div>
               <div className="mb-6">
                 <div className="flex items-baseline gap-1">
-                  <span className={`text-4xl font-extrabold ${p.highlight ? "text-white" : "text-gray-900"}`}>${annual ? p.priceYr : p.price6}</span>
-                  <span className={`text-sm ${p.highlight ? "text-gray-400" : "text-gray-400"}`}>/{annual ? "yr" : "6mo"}</span>
+                  <span className={`text-4xl font-extrabold ${p.highlight ? "text-white" : "text-gray-900"}`}>${annual ? p.priceYr : p.priceMonthly}</span>
+                  <span className={`text-sm ${p.highlight ? "text-gray-400" : "text-gray-400"}`}>/{annual ? "yr" : "month"}</span>
                 </div>
                 {!annual && <p className={`text-xs mt-1 ${p.highlight ? "text-gray-500" : "text-gray-400"}`}>${p.priceYr}/yr billed annually</p>}
+                {annual && <p className={`text-xs mt-1 ${p.highlight ? "text-gray-500" : "text-gray-400"}`}>${p.priceMonthly}/month</p>}
               </div>
               <div className="space-y-3 mb-8 flex-1">
                 {p.features.map((f, j) => (
@@ -418,7 +432,7 @@ function Pricing({ onStart }) {
         ))}
       </div>
       <FadeIn delay={350}>
-        <p className="text-center text-sm text-gray-400 mt-8 max-w-lg mx-auto">State filing fees (varies by state) are collected separately during checkout. Plan billing begins after your entity is approved.</p>
+        <p className="text-center text-sm text-gray-400 mt-8 max-w-lg mx-auto">State filing fees (varies by state) are collected separately during checkout.</p>
       </FadeIn>
     </Section>
   );
@@ -511,7 +525,7 @@ function FinalCTA({ onStart }) {
           <p className="text-lg text-gray-400 mb-10 max-w-lg mx-auto">Talk to an accountant. Get the right entity. Keep more of your money. It takes less than 10 minutes to start.</p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Btn size="lg" onClick={onStart}>Get My Savings Started <ArrowRight size={18} /></Btn>
-            <a href="tel:+18001234567" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium transition-colors"><Phone size={16} /> Or call (800) 123-4567</a>
+            <a href="tel:1-800-222-6868" className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm font-medium transition-colors"><Phone size={16} /> Or call 1-800-222-6868</a>
           </div>
           <div className="flex items-center justify-center gap-6 mt-10 text-xs text-gray-500">
             <span className="flex items-center gap-1.5"><Shield size={12} /> Bank-level security</span>
